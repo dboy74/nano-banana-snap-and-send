@@ -107,11 +107,34 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
 
       {!isProcessing && (
         <>
+          {/* Custom prompt - Now at the top */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-medium text-foreground flex items-center gap-2">
+              <Wand2 className="w-5 h-5 text-primary" />
+              Vad vill du bli?
+            </h3>
+            <form onSubmit={handleCustomSubmit} className="flex gap-2">
+              <Input
+                type="text"
+                value={customPrompt}
+                onChange={(e) => setCustomPrompt(e.target.value)}
+                placeholder="Skriv vad du vill bli..."
+                className="flex-1 bg-input/50 border-border/50"
+              />
+              <Button
+                type="submit"
+                className="bg-gradient-primary hover:opacity-90 px-6"
+              >
+                <Wand2 className="w-4 h-4" />
+              </Button>
+            </form>
+          </div>
+
           {/* Fun prompt buttons */}
           <div className="space-y-3">
             <h3 className="text-lg font-medium text-foreground flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-accent" />
-              Snabba transformationer
+              Eller välj ett förslag
             </h3>
             <div className="grid grid-cols-2 gap-2">
               {FUNNY_PROMPTS.map((prompt, index) => (
@@ -126,29 +149,6 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
                 </Button>
               ))}
             </div>
-          </div>
-
-          {/* Custom prompt */}
-          <div className="space-y-3">
-            <h3 className="text-lg font-medium text-foreground flex items-center gap-2">
-              <Wand2 className="w-5 h-5 text-primary" />
-              Eller skapa din egen
-            </h3>
-            <form onSubmit={handleCustomSubmit} className="flex gap-2">
-              <Input
-                type="text"
-                value={customPrompt}
-                onChange={(e) => setCustomPrompt(e.target.value)}
-                placeholder="Beskriv din transformation..."
-                className="flex-1 bg-input/50 border-border/50"
-              />
-              <Button
-                type="submit"
-                className="bg-gradient-primary hover:opacity-90 px-6"
-              >
-                <Wand2 className="w-4 h-4" />
-              </Button>
-            </form>
           </div>
         </>
       )}
