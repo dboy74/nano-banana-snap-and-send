@@ -44,7 +44,7 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
       setIsLoading(false);
     } catch (err) {
       console.error("Camera access error:", err);
-      setError("Camera access denied. Please allow camera permissions and try again.");
+      setError("Kameraåtkomst nekad. Vänligen tillåt kamerabehörigheter och försök igen.");
       setIsLoading(false);
     }
   };
@@ -98,7 +98,7 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
           className="w-full bg-gradient-primary hover:opacity-90"
         >
           <Camera className="w-4 h-4 mr-2" />
-          Try Again
+          Försök igen
         </Button>
       </div>
     );
@@ -107,7 +107,7 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-center text-foreground">
-        Ready to capture something amazing?
+        Redo att fånga något fantastiskt?
       </h2>
 
       {/* Camera preview */}
@@ -116,7 +116,7 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
             <div className="text-white text-center">
               <Camera className="w-8 h-8 mx-auto mb-2 animate-pulse" />
-              <p>Starting camera...</p>
+              <p>Startar kamera...</p>
             </div>
           </div>
         )}

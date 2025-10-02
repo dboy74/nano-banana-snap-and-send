@@ -22,12 +22,12 @@ export const EmailSender = ({ imageUrl, onEmailSent, onBack }: EmailSenderProps)
     e.preventDefault();
     
     if (!email.trim()) {
-      toast("Please enter an email address!");
+      toast("Vänligen ange en e-postadress!");
       return;
     }
 
     if (!email.includes("@")) {
-      toast("Please enter a valid email address!");
+      toast("Vänligen ange en giltig e-postadress!");
       return;
     }
 
@@ -37,19 +37,19 @@ export const EmailSender = ({ imageUrl, onEmailSent, onBack }: EmailSenderProps)
       const { data, error } = await supabase.functions.invoke('send-image-email', {
         body: {
           to: email,
-          name: name || "Someone",
-          message: message || "Check out this amazing photo transformation!",
+          name: name || "Någon",
+          message: message || "Kolla in den här fantastiska bildtransformationen!",
           imageUrl: imageUrl
         }
       });
 
       if (error) throw error;
 
-      toast("🎉 Your transformed photo has been sent!");
+      toast("🎉 Din transformerade bild har skickats!");
       onEmailSent();
     } catch (error) {
       console.error("Email sending error:", error);
-      toast("Oops! Failed to send email. Please try again.");
+      toast("Hoppsan! Kunde inte skicka e-post. Vänligen försök igen.");
     } finally {
       setIsSending(false);
     }
@@ -70,7 +70,7 @@ export const EmailSender = ({ imageUrl, onEmailSent, onBack }: EmailSenderProps)
         </Button>
         <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
           <Mail className="w-5 h-5 text-primary" />
-          Share Your Creation
+          Dela din skapelse
         </h2>
       </div>
 
@@ -90,14 +90,14 @@ export const EmailSender = ({ imageUrl, onEmailSent, onBack }: EmailSenderProps)
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email" className="text-foreground">
-            Send to email address *
+            Skicka till e-postadress *
           </Label>
           <Input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="friend@example.com"
+            placeholder="van@exempel.se"
             className="bg-input/50 border-border/50"
             required
           />
@@ -105,28 +105,28 @@ export const EmailSender = ({ imageUrl, onEmailSent, onBack }: EmailSenderProps)
 
         <div className="space-y-2">
           <Label htmlFor="name" className="text-foreground">
-            Your name (optional)
+            Ditt namn (valfritt)
           </Label>
           <Input
             id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
+            placeholder="Ditt namn"
             className="bg-input/50 border-border/50"
           />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="message" className="text-foreground">
-            Message (optional)
+            Meddelande (valfritt)
           </Label>
           <Input
             id="message"
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Check out this amazing photo transformation!"
+            placeholder="Kolla in den här fantastiska bildtransformationen!"
             className="bg-input/50 border-border/50"
           />
         </div>
@@ -139,12 +139,12 @@ export const EmailSender = ({ imageUrl, onEmailSent, onBack }: EmailSenderProps)
           {isSending ? (
             <>
               <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              Sending Magic...
+              Skickar magi...
             </>
           ) : (
             <>
               <Send className="w-5 h-5 mr-2" />
-              Send Photo
+              Skicka bild
             </>
           )}
         </Button>

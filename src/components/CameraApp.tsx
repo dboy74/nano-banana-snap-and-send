@@ -17,24 +17,24 @@ export const CameraApp = () => {
   const handleImageCaptured = (imageDataUrl: string) => {
     setCapturedImage(imageDataUrl);
     setCurrentStep("editing");
-    toast("📸 Perfect shot! Now let's make it fun!");
+    toast("📸 Perfekt bild! Nu ska vi göra den rolig!");
   };
 
   const handleImageEdited = (editedImageUrl: string) => {
     setEditedImage(editedImageUrl);
     setCurrentStep("email");
-    toast("✨ Amazing transformation! Ready to share?");
+    toast("✨ Fantastisk transformation! Redo att dela?");
   };
 
   const handleReset = () => {
     setCapturedImage(null);
     setEditedImage(null);
     setCurrentStep("camera");
-    toast("🔄 Starting fresh!");
+    toast("🔄 Börjar om från början!");
   };
 
   const handleEmailSent = () => {
-    toast("📧 Image sent successfully!");
+    toast("📧 Bilden skickades!");
     setTimeout(() => {
       handleReset();
     }, 2000);
@@ -48,7 +48,7 @@ export const CameraApp = () => {
           <div className="flex items-center justify-center gap-2 mb-4">
             <Aperture className="w-8 h-8 text-primary animate-pulse-glow" />
             <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Snap & Transform
+              Fånga & Transformera
             </h1>
           </div>
           
@@ -101,7 +101,7 @@ export const CameraApp = () => {
               className="gap-2 bg-secondary/50 hover:bg-secondary/70 border-border/50"
             >
               <RotateCcw className="w-4 h-4" />
-              Start Over
+              Börja om
             </Button>
           </div>
         )}

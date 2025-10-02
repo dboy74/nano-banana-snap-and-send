@@ -12,14 +12,14 @@ interface ImageEditorProps {
 }
 
 const FUNNY_PROMPTS = [
-  { text: "Turn me into a superhero!", icon: "🦸‍♂️" },
-  { text: "Make me look like a cartoon character", icon: "🎭" },
-  { text: "Add silly sunglasses and a mustache", icon: "🕶️" },
-  { text: "Transform into a medieval knight", icon: "⚔️" },
-  { text: "Give me rainbow hair and sparkles", icon: "🌈" },
-  { text: "Make me look like a pirate", icon: "🏴‍☠️" },
-  { text: "Turn into a space astronaut", icon: "🚀" },
-  { text: "Add cat ears and whiskers", icon: "🐱" },
+  { text: "Gör mig till en superhjälte!", icon: "🦸‍♂️" },
+  { text: "Gör mig till en tecknad figur", icon: "🎭" },
+  { text: "Lägg till roliga solglasögon och en mustasch", icon: "🕶️" },
+  { text: "Förvandla till en medeltida riddare", icon: "⚔️" },
+  { text: "Ge mig regnbågsfärgat hår och glitter", icon: "🌈" },
+  { text: "Gör mig till en pirat", icon: "🏴‍☠️" },
+  { text: "Förvandla till en rymdastronaut", icon: "🚀" },
+  { text: "Lägg till kattöron och morrhår", icon: "🐱" },
 ];
 
 export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEditorProps) => {
@@ -29,7 +29,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
 
   const processImage = async (prompt: string) => {
     if (!prompt.trim()) {
-      toast("Please enter a transformation idea!");
+      toast("Vänligen ange en transformationsidé!");
       return;
     }
 
@@ -53,7 +53,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
       }
     } catch (error) {
       console.error("Image editing error:", error);
-      toast("Oops! Something went wrong. Please try again.");
+      toast("Hoppsan! Något gick fel. Vänligen försök igen.");
     } finally {
       setIsProcessing(false);
       setCurrentPrompt("");
@@ -83,7 +83,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <h2 className="text-xl font-semibold text-foreground">
-          Transform Your Photo
+          Transformera din bild
         </h2>
       </div>
 
@@ -99,7 +99,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
           <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center text-white">
             <Loader2 className="w-8 h-8 animate-spin mb-2" />
             <p className="text-sm text-center px-4">
-              ✨ Creating magic with: "{currentPrompt}"
+              ✨ Skapar magi med: "{currentPrompt}"
             </p>
           </div>
         )}
@@ -111,7 +111,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
           <div className="space-y-3">
             <h3 className="text-lg font-medium text-foreground flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-accent" />
-              Quick Transformations
+              Snabba transformationer
             </h3>
             <div className="grid grid-cols-2 gap-2">
               {FUNNY_PROMPTS.map((prompt, index) => (
@@ -132,14 +132,14 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
           <div className="space-y-3">
             <h3 className="text-lg font-medium text-foreground flex items-center gap-2">
               <Wand2 className="w-5 h-5 text-primary" />
-              Or Create Your Own
+              Eller skapa din egen
             </h3>
             <form onSubmit={handleCustomSubmit} className="flex gap-2">
               <Input
                 type="text"
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
-                placeholder="Describe your transformation..."
+                placeholder="Beskriv din transformation..."
                 className="flex-1 bg-input/50 border-border/50"
               />
               <Button
