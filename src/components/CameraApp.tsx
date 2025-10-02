@@ -48,7 +48,7 @@ export const CameraApp = () => {
           <div className="flex items-center justify-center gap-2 mb-4">
             <Aperture className="w-8 h-8 text-primary animate-pulse-glow" />
             <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Fånga & Transformera
+              Foto & Fantasi
             </h1>
           </div>
           
