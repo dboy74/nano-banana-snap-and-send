@@ -107,7 +107,7 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-center text-foreground">
-        Redo att fånga något fantastiskt?
+        Vad vill du bli idag?
       </h2>
 
       {/* Camera preview */}
