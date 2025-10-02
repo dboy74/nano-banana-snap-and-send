@@ -13,6 +13,7 @@ export const CameraApp = () => {
   const [currentStep, setCurrentStep] = useState<AppStep>("camera");
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [editedImage, setEditedImage] = useState<string | null>(null);
+  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleImageCaptured = (imageDataUrl: string) => {
     setCapturedImage(imageDataUrl);
@@ -40,14 +41,48 @@ export const CameraApp = () => {
     }, 2000);
   };
 
+  const resetInactivityTimer = () => {
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
+    
+    // Only set timer if not on camera step
+    if (currentStep !== "camera") {
+      inactivityTimerRef.current = setTimeout(() => {
+        handleReset();
+        toast("🔄 Återgår till start efter inaktivitet");
+      }, 60000); // 60 seconds
+    }
+  };
+
+  useEffect(() => {
+    // Set up activity listeners
+    const events = ['mousedown', 'touchstart', 'keydown', 'scroll'];
+    
+    events.forEach(event => {
+      window.addEventListener(event, resetInactivityTimer);
+    });
+
+    resetInactivityTimer();
+
+    return () => {
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+      }
+      events.forEach(event => {
+        window.removeEventListener(event, resetInactivityTimer);
+      });
+    };
+  }, [currentStep]);
+
   return (
     <div className="min-h-screen bg-gradient-bg p-4 flex flex-col items-center justify-center">
       <div className="w-full max-w-md mx-auto space-y-6">
         {/* Header */}
         <div className="text-center space-y-2 animate-bounce-in">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Aperture className="w-8 h-8 text-primary animate-pulse-glow" />
-            <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Aperture className="w-9 h-9 text-primary animate-pulse-glow drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]" />
+            <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent tracking-wider">
               Foto & Fantasi
             </h1>
           </div>
@@ -70,7 +105,7 @@ export const CameraApp = () => {
         </div>
 
         {/* Main content */}
-        <Card className="p-6 bg-card/80 backdrop-blur-lg border-border/50 shadow-glow">
+        <Card className="p-6 bg-card/40 backdrop-blur-xl border-border/30 shadow-glow transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.5)]">
           {currentStep === "camera" && (
             <CameraPreview onImageCaptured={handleImageCaptured} />
           )}
@@ -94,11 +129,11 @@ export const CameraApp = () => {
 
         {/* Reset button - always visible */}
         {currentStep !== "camera" && (
-          <div className="flex justify-center">
+          <div className="flex justify-center animate-fade-in">
             <Button
               variant="outline"
               onClick={handleReset}
-              className="gap-2 bg-secondary/50 hover:bg-secondary/70 border-border/50"
+              className="gap-2 bg-card/30 backdrop-blur-md hover:bg-card/50 border-border/30 transition-all duration-300 hover:scale-105 hover:shadow-glow"
             >
               <RotateCcw className="w-4 h-4" />
               Börja om

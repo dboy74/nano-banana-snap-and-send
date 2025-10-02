@@ -105,46 +105,51 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
   }
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-center text-foreground">
+    <div className="space-y-6 animate-fade-in">
+      <h2 className="text-2xl font-semibold text-center text-foreground tracking-wide">
         Vad vill du bli idag?
       </h2>
 
-      {/* Camera preview */}
-      <div className="relative rounded-2xl overflow-hidden bg-black aspect-[4/3] shadow-glow">
-        {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
-            <div className="text-white text-center">
-              <Camera className="w-8 h-8 mx-auto mb-2 animate-pulse" />
-              <p>Startar kamera...</p>
+      {/* Camera preview with glassmorphism frame */}
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 p-1 shadow-glow animate-gradient-slow">
+        <div className="relative rounded-[22px] overflow-hidden bg-black aspect-[4/3] backdrop-blur-xl">
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
+              <div className="text-white text-center">
+                <Camera className="w-8 h-8 mx-auto mb-2 animate-pulse" />
+                <p>Startar kamera...</p>
+              </div>
             </div>
+          )}
+          
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            playsInline
+            muted
+            autoPlay
+          />
+          
+          {/* Gradient overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 pointer-events-none" />
+          
+          {/* Camera overlay effects */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-primary/60 rounded-tl-lg shadow-glow" />
+            <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-primary/60 rounded-tr-lg shadow-glow" />
+            <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-primary/60 rounded-bl-lg shadow-glow" />
+            <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-primary/60 rounded-br-lg shadow-glow" />
           </div>
-        )}
-        
-        <video
-          ref={videoRef}
-          className="w-full h-full object-cover"
-          playsInline
-          muted
-          autoPlay
-        />
-        
-        {/* Camera overlay effects */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-white/50 rounded-tl-lg" />
-          <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-white/50 rounded-tr-lg" />
-          <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-white/50 rounded-bl-lg" />
-          <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-white/50 rounded-br-lg" />
         </div>
       </div>
 
       {/* Camera controls */}
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-6">
         <Button
           variant="outline"
           size="icon"
           onClick={switchCamera}
-          className="rounded-full w-12 h-12 bg-secondary/50 hover:bg-secondary/70 border-border/50"
+          className="rounded-full w-14 h-14 bg-card/30 backdrop-blur-md hover:bg-card/50 border-border/30 transition-all duration-300 hover:scale-110 hover:shadow-glow"
         >
           <RefreshCw className="w-5 h-5" />
         </Button>
@@ -152,12 +157,12 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
         <Button
           onClick={captureImage}
           disabled={isLoading}
-          className="w-16 h-16 rounded-full bg-gradient-capture hover:opacity-90 shadow-capture animate-pulse-glow"
+          className="w-20 h-20 rounded-full bg-gradient-capture hover:opacity-90 shadow-capture animate-pulse-glow transition-all duration-300 hover:scale-105 group"
         >
-          <Camera className="w-8 h-8" />
+          <Camera className="w-9 h-9 transition-transform duration-300 group-hover:scale-110" />
         </Button>
 
-        <div className="w-12 h-12" /> {/* Spacer for symmetry */}
+        <div className="w-14 h-14" /> {/* Spacer for symmetry */}
       </div>
 
       {/* Hidden canvas for image capture */}
