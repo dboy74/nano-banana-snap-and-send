@@ -90,16 +90,6 @@ export default {
             height: "0",
           },
         },
-        "float": {
-          "0%, 100%": {
-            transform: "translateY(0px) translateX(0px)",
-            opacity: "0.3",
-          },
-          "50%": {
-            transform: "translateY(-20px) translateX(10px)",
-            opacity: "0.6",
-          },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -107,7 +97,6 @@ export default {
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "capture-flash": "capture-flash 0.3s ease-out",
         "bounce-in": "bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-        "float": "float linear infinite",
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
