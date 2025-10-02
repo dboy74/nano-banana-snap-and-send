@@ -6,13 +6,52 @@ import { toast } from "sonner";
 import { CameraPreview } from "./CameraPreview";
 import { ImageEditor } from "./ImageEditor";
 import { EmailSender } from "./EmailSender";
+import { WelcomeScreen } from "./WelcomeScreen";
 
-type AppStep = "camera" | "editing" | "email";
+type AppStep = "welcome" | "camera" | "editing" | "email";
 
 export const CameraApp = () => {
-  const [currentStep, setCurrentStep] = useState<AppStep>("camera");
+  const [currentStep, setCurrentStep] = useState<AppStep>("welcome");
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [editedImage, setEditedImage] = useState<string | null>(null);
+  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-reset after 45 seconds of inactivity
+  const resetInactivityTimer = () => {
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
+    
+    if (currentStep !== "welcome") {
+      inactivityTimerRef.current = setTimeout(() => {
+        handleReset();
+      }, 45000); // 45 seconds
+    }
+  };
+
+  useEffect(() => {
+    // Set up activity listeners
+    const handleActivity = () => {
+      resetInactivityTimer();
+    };
+
+    window.addEventListener("click", handleActivity);
+    window.addEventListener("touchstart", handleActivity);
+    window.addEventListener("mousemove", handleActivity);
+    window.addEventListener("keypress", handleActivity);
+
+    resetInactivityTimer();
+
+    return () => {
+      window.removeEventListener("click", handleActivity);
+      window.removeEventListener("touchstart", handleActivity);
+      window.removeEventListener("mousemove", handleActivity);
+      window.removeEventListener("keypress", handleActivity);
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+      }
+    };
+  }, [currentStep]);
 
   const handleImageCaptured = (imageDataUrl: string) => {
     setCapturedImage(imageDataUrl);
@@ -29,8 +68,15 @@ export const CameraApp = () => {
   const handleReset = () => {
     setCapturedImage(null);
     setEditedImage(null);
+    setCurrentStep("welcome");
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
+  };
+
+  const handleStart = () => {
     setCurrentStep("camera");
-    toast("🔄 Börjar om från början!");
+    resetInactivityTimer();
   };
 
   const handleEmailSent = () => {
@@ -39,6 +85,11 @@ export const CameraApp = () => {
       handleReset();
     }, 2000);
   };
+
+  // Show welcome screen first
+  if (currentStep === "welcome") {
+    return <WelcomeScreen onStart={handleStart} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-bg p-4 flex flex-col items-center justify-center">
