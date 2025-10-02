@@ -12,14 +12,12 @@ interface ImageEditorProps {
 }
 
 const FUNNY_PROMPTS = [
-  { text: "Gör mig till en superhjälte!", icon: "🦸‍♂️" },
-  { text: "Gör mig till en tecknad figur", icon: "🎭" },
-  { text: "Lägg till roliga solglasögon och en mustasch", icon: "🕶️" },
-  { text: "Förvandla till en medeltida riddare", icon: "⚔️" },
-  { text: "Ge mig regnbågsfärgat hår och glitter", icon: "🌈" },
-  { text: "Gör mig till en pirat", icon: "🏴‍☠️" },
-  { text: "Förvandla till en rymdastronaut", icon: "🚀" },
-  { text: "Lägg till kattöron och morrhår", icon: "🐱" },
+  { text: "Superhjälte 🦸", icon: "🦸‍♂️" },
+  { text: "Tecknad figur 🎨", icon: "🎭" },
+  { text: "Cool med solglasögon 😎", icon: "🕶️" },
+  { text: "Medeltida riddare ⚔️", icon: "⚔️" },
+  { text: "Regnbågshår & glitter 🌈", icon: "🌈" },
+  { text: "Pirat 🏴‍☠️", icon: "🏴‍☠️" },
 ];
 
 export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEditorProps) => {
@@ -70,14 +68,14 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fade-in">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
           onClick={onBack}
-          className="rounded-full"
+          className="rounded-full transition-all hover:scale-105"
           disabled={isProcessing}
         >
           <ArrowLeft className="w-5 h-5" />
@@ -88,7 +86,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
       </div>
 
       {/* Image preview */}
-      <div className="relative rounded-2xl overflow-hidden bg-black shadow-glow">
+      <div className="relative rounded-[20px] overflow-hidden bg-black shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
         <img
           src={originalImage}
           alt="Captured photo"
@@ -108,22 +106,22 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
       {!isProcessing && (
         <>
           {/* Custom prompt - Now at the top */}
-          <div className="space-y-3">
-            <h3 className="text-lg font-medium text-foreground flex items-center gap-2">
-              <Wand2 className="w-5 h-5 text-primary" />
+          <div className="space-y-4">
+            <h3 className="text-2xl font-semibold text-foreground flex items-center gap-2">
+              <Wand2 className="w-6 h-6 text-primary" />
               Vad vill du bli?
             </h3>
-            <form onSubmit={handleCustomSubmit} className="flex gap-2">
+            <form onSubmit={handleCustomSubmit} className="flex gap-3">
               <Input
                 type="text"
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
                 placeholder="Skriv vad du vill bli..."
-                className="flex-1 bg-input/50 border-border/50"
+                className="flex-1 bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50"
               />
               <Button
                 type="submit"
-                className="bg-gradient-primary hover:opacity-90 px-6"
+                className="bg-gradient-primary hover:opacity-90 hover:shadow-glow transition-all px-6"
               >
                 <Wand2 className="w-4 h-4" />
               </Button>
@@ -131,21 +129,20 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
           </div>
 
           {/* Fun prompt buttons */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             <h3 className="text-lg font-medium text-foreground flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-accent" />
               Eller välj ett förslag
             </h3>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-4">
               {FUNNY_PROMPTS.map((prompt, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   onClick={() => handlePromptClick(prompt.text)}
-                  className="h-auto p-3 text-left bg-gradient-accent hover:opacity-90 border-0 text-accent-foreground font-medium"
+                  className="h-auto p-4 text-left bg-gradient-accent hover:opacity-90 hover:scale-[1.02] border-0 text-accent-foreground font-medium transition-all"
                 >
-                  <span className="mr-2 text-lg">{prompt.icon}</span>
-                  <span className="text-xs leading-tight">{prompt.text}</span>
+                  <span className="text-sm leading-tight">{prompt.text}</span>
                 </Button>
               ))}
             </div>
