@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface ImageEditorProps {
   originalImage: string;
-  onImageEdited: (editedImageUrl: string) => void;
+  onImageEdited: (editedImageUrl: string, promptUsed: string) => void;
   onBack: () => void;
 }
 
@@ -45,7 +45,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
       if (error) throw error;
 
       if (data?.editedImageUrl) {
-        onImageEdited(data.editedImageUrl);
+        onImageEdited(data.editedImageUrl, prompt);
       } else {
         throw new Error("No edited image received");
       }

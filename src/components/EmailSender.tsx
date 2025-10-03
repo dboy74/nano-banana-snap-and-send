@@ -10,11 +10,12 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface EmailSenderProps {
   imageUrl: string;
+  promptUsed: string;
   onEmailSent: () => void;
   onBack: () => void;
 }
 
-export const EmailSender = ({ imageUrl, onEmailSent, onBack }: EmailSenderProps) => {
+export const EmailSender = ({ imageUrl, promptUsed, onEmailSent, onBack }: EmailSenderProps) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("Kolla vilken cool transformation jag gjorde på AI Island! 🚀");
@@ -35,30 +36,41 @@ export const EmailSender = ({ imageUrl, onEmailSent, onBack }: EmailSenderProps)
       return;
     }
 
+    if (!gdprConsent) {
+      toast("Du måste godkänna att vi sparar din e-post!");
+      return;
+    }
+
     setIsSending(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-image-email', {
-        body: {
-          to: email,
-          name: name || "Någon",
-          message: message || "Kolla in den här fantastiska bildtransformationen!",
-          imageUrl: imageUrl
-        }
-      });
+      console.log("Sparar transformation till databas...");
+      
+      const { data, error } = await supabase
+        .from('transformations')
+        .insert({
+          email: email.trim(),
+          name: name.trim() || null,
+          message: message.trim() || null,
+          consent: gdprConsent,
+          prompt_used: promptUsed
+        })
+        .select();
 
       if (error) throw error;
 
+      console.log("Transformation sparad!", data);
+
       setIsSent(true);
-      toast("Klart! Kolla din inbox 📧");
+      toast("Klart! Din transformation är sparad 📧");
       
       // Redirect to start page after 3 seconds
       setTimeout(() => {
         onEmailSent();
       }, 3000);
     } catch (error) {
-      console.error("Email sending error:", error);
-      toast("Hoppsan! Kunde inte skicka e-post. Vänligen försök igen.");
+      console.error("Databas-fel:", error);
+      toast("Något gick fel, försök igen");
     } finally {
       setIsSending(false);
     }

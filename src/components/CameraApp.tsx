@@ -13,6 +13,7 @@ export const CameraApp = () => {
   const [currentStep, setCurrentStep] = useState<AppStep>("camera");
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [editedImage, setEditedImage] = useState<string | null>(null);
+  const [promptUsed, setPromptUsed] = useState<string>("");
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleImageCaptured = (imageDataUrl: string) => {
@@ -21,8 +22,9 @@ export const CameraApp = () => {
     toast("📸 Perfekt bild! Nu ska vi göra den rolig!");
   };
 
-  const handleImageEdited = (editedImageUrl: string) => {
+  const handleImageEdited = (editedImageUrl: string, prompt: string) => {
     setEditedImage(editedImageUrl);
+    setPromptUsed(prompt);
     setCurrentStep("email");
     toast("✨ Fantastisk transformation! Redo att dela?");
   };
@@ -30,6 +32,7 @@ export const CameraApp = () => {
   const handleReset = () => {
     setCapturedImage(null);
     setEditedImage(null);
+    setPromptUsed("");
     setCurrentStep("camera");
     toast("🔄 Börjar om från början!");
   };
@@ -121,6 +124,7 @@ export const CameraApp = () => {
           {currentStep === "email" && editedImage && (
             <EmailSender
               imageUrl={editedImage}
+              promptUsed={promptUsed}
               onEmailSent={handleEmailSent}
               onBack={() => setCurrentStep("editing")}
             />
