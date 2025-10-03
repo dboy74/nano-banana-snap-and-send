@@ -116,6 +116,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
     setIsSending(true);
 
     try {
+      // 1. Spara till databas först
       console.log("Sparar transformation till databas...");
       
       const { data, error } = await supabase
@@ -135,8 +136,31 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
 
       console.log("Transformation sparad!", data);
 
+      // 2. Skicka email med bilden
+      try {
+        console.log("Skickar email...");
+        
+        const { error: emailError } = await supabase.functions.invoke('send-image-email', {
+          body: {
+            email: email.trim(),
+            name: name.trim() || undefined,
+            imageUrl: uploadedGeneratedUrl
+          }
+        });
+
+        if (emailError) {
+          console.error("Email-fel:", emailError);
+          toast("Bilden sparad men email kunde inte skickas");
+        } else {
+          console.log("Email skickat!");
+          toast("Klart! Din transformation är sparad och skickad 📧");
+        }
+      } catch (emailError) {
+        console.error("Email-fel:", emailError);
+        toast("Bilden sparad men email kunde inte skickas");
+      }
+
       setIsSent(true);
-      toast("Klart! Din transformation är sparad 📧");
       
       // Redirect to start page after 3 seconds
       setTimeout(() => {
