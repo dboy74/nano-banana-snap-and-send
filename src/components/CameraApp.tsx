@@ -121,8 +121,9 @@ export const CameraApp = () => {
             />
           )}
           
-          {currentStep === "email" && editedImage && (
+          {currentStep === "email" && editedImage && capturedImage && (
             <EmailSender
+              originalImage={capturedImage}
               imageUrl={editedImage}
               promptUsed={promptUsed}
               onEmailSent={handleEmailSent}

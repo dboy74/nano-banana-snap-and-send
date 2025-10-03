@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowLeft, Send, Mail, Loader2, CheckCircle, Sparkles } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowLeft, Send, Mail, Loader2, CheckCircle, Sparkles, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,19 +9,86 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 interface EmailSenderProps {
+  originalImage: string;
   imageUrl: string;
   promptUsed: string;
   onEmailSent: () => void;
   onBack: () => void;
 }
 
-export const EmailSender = ({ imageUrl, promptUsed, onEmailSent, onBack }: EmailSenderProps) => {
+export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, onBack }: EmailSenderProps) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("Kolla vilken cool transformation jag gjorde på AI Island! 🚀");
   const [gdprConsent, setGdprConsent] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [isUploadingImages, setIsUploadingImages] = useState(false);
+  const [uploadedOriginalUrl, setUploadedOriginalUrl] = useState<string | null>(null);
+  const [uploadedGeneratedUrl, setUploadedGeneratedUrl] = useState<string | null>(null);
+
+
+  // Upload images when component mounts
+  useEffect(() => {
+    const uploadImages = async () => {
+      setIsUploadingImages(true);
+      try {
+        console.log("Laddar upp bilder till Supabase Storage...");
+        
+        const timestamp = Date.now();
+        const randomId = Math.random().toString(36).substring(7);
+        
+        // Convert base64 to blob for original image
+        const originalBlob = await fetch(originalImage).then(r => r.blob());
+        const originalFileName = `${timestamp}-original-${randomId}.jpg`;
+        
+        // Convert base64 to blob for generated image
+        const generatedBlob = await fetch(imageUrl).then(r => r.blob());
+        const generatedFileName = `${timestamp}-generated-${randomId}.jpg`;
+        
+        // Upload original image
+        const { data: originalData, error: originalError } = await supabase.storage
+          .from('transformations')
+          .upload(originalFileName, originalBlob, {
+            contentType: 'image/jpeg',
+            cacheControl: '3600'
+          });
+        
+        if (originalError) throw originalError;
+        
+        // Upload generated image
+        const { data: generatedData, error: generatedError } = await supabase.storage
+          .from('transformations')
+          .upload(generatedFileName, generatedBlob, {
+            contentType: 'image/jpeg',
+            cacheControl: '3600'
+          });
+        
+        if (generatedError) throw generatedError;
+        
+        // Get public URLs
+        const { data: { publicUrl: originalPublicUrl } } = supabase.storage
+          .from('transformations')
+          .getPublicUrl(originalFileName);
+        
+        const { data: { publicUrl: generatedPublicUrl } } = supabase.storage
+          .from('transformations')
+          .getPublicUrl(generatedFileName);
+        
+        setUploadedOriginalUrl(originalPublicUrl);
+        setUploadedGeneratedUrl(generatedPublicUrl);
+        
+        console.log("Bilder uppladdade!", { originalPublicUrl, generatedPublicUrl });
+      } catch (error) {
+        console.error("Bilduppladdningsfel:", error);
+        toast("Kunde inte ladda upp bilder. Försök igen.");
+      } finally {
+        setIsUploadingImages(false);
+      }
+    };
+    
+    uploadImages();
+  }, [originalImage, imageUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +108,11 @@ export const EmailSender = ({ imageUrl, promptUsed, onEmailSent, onBack }: Email
       return;
     }
 
+    if (!uploadedOriginalUrl || !uploadedGeneratedUrl) {
+      toast("Bilder laddas fortfarande upp, vänta lite...");
+      return;
+    }
+
     setIsSending(true);
 
     try {
@@ -53,7 +125,9 @@ export const EmailSender = ({ imageUrl, promptUsed, onEmailSent, onBack }: Email
           name: name.trim() || null,
           message: message.trim() || null,
           consent: gdprConsent,
-          prompt_used: promptUsed
+          prompt_used: promptUsed,
+          original_image_url: uploadedOriginalUrl,
+          generated_image_url: uploadedGeneratedUrl
         })
         .select();
 
@@ -78,6 +152,16 @@ export const EmailSender = ({ imageUrl, promptUsed, onEmailSent, onBack }: Email
 
   return (
     <div className="space-y-8 animate-fade-in">
+      {/* Loading overlay while uploading images */}
+      {isUploadingImages && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 rounded-lg">
+          <div className="text-center space-y-3">
+            <Upload className="w-8 h-8 animate-bounce mx-auto text-primary" />
+            <p className="text-sm text-muted-foreground">Laddar upp bilder...</p>
+          </div>
+        </div>
+      )}
+      
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button
@@ -178,7 +262,7 @@ export const EmailSender = ({ imageUrl, promptUsed, onEmailSent, onBack }: Email
 
         <Button
           type="submit"
-          disabled={isSending || isSent || !gdprConsent}
+          disabled={isSending || isSent || !gdprConsent || isUploadingImages}
           className={`w-full h-12 text-lg transition-all ${
             isSent 
               ? "bg-success hover:bg-success" 

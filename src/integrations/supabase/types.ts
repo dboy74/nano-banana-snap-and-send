@@ -19,27 +19,33 @@ export type Database = {
           consent: boolean
           created_at: string
           email: string
+          generated_image_url: string | null
           id: string
           message: string | null
           name: string | null
+          original_image_url: string | null
           prompt_used: string | null
         }
         Insert: {
           consent?: boolean
           created_at?: string
           email: string
+          generated_image_url?: string | null
           id?: string
           message?: string | null
           name?: string | null
+          original_image_url?: string | null
           prompt_used?: string | null
         }
         Update: {
           consent?: boolean
           created_at?: string
           email?: string
+          generated_image_url?: string | null
           id?: string
           message?: string | null
           name?: string | null
+          original_image_url?: string | null
           prompt_used?: string | null
         }
         Relationships: []
