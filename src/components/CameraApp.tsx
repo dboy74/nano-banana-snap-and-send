@@ -91,11 +91,16 @@ export const CameraApp = () => {
               className="h-16 w-auto opacity-90"
             />
           </div>
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Aperture className="w-9 h-9 text-primary animate-pulse-glow drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]" />
-            <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent tracking-wider">
-              Foto & Fantasi
-            </h1>
+          <div className="text-center mb-4">
+            <h2 className="text-5xl font-montserrat font-bold tracking-wider text-foreground mb-2">
+              AI.ISLAND
+            </h2>
+            <div className="flex items-center justify-center gap-3">
+              <Aperture className="w-7 h-7 text-primary animate-pulse-glow drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]" />
+              <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent tracking-wider">
+                Foto & Fantasi
+              </h1>
+            </div>
           </div>
           
           {/* Step indicators */}
