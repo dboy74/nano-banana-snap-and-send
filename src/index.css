@@ -2,120 +2,108 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Camera App Design System - Playful photo editing theme 
+/* Science Park Gotland Design System - Innovation & Entrepreneurship 
 All colors MUST be HSL.
+Based on: Yellow (#F1CC3D), Teal (#7EBDC6), Coral (#DD7469)
 */
 
 @layer base {
   :root {
-    /* Camera-inspired gradients and colors */
-    --background: 230 15% 8%;
-    --foreground: 210 40% 98%;
+    /* Science Park Gotland color palette */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 13%;
 
-    --card: 230 15% 12%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
 
-    --popover: 230 15% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
 
-    /* Deep camera blue to bright purple gradient */
-    --primary: 250 90% 60%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 280 100% 70%;
+    /* Yellow/Gold - F1CC3D */
+    --primary: 45 85% 62%;
+    --primary-foreground: 0 0% 13%;
+    --primary-glow: 45 85% 72%;
 
-    /* Playful secondary colors */
-    --secondary: 230 15% 18%;
-    --secondary-foreground: 210 40% 98%;
+    /* Teal - 7EBDC6 */
+    --secondary: 186 40% 63%;
+    --secondary-foreground: 0 0% 13%;
 
-    --muted: 230 15% 15%;
-    --muted-foreground: 210 20% 70%;
+    /* Coral/Salmon - DD7469 */
+    --accent: 5 62% 64%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 5 62% 74%;
 
-    /* Fun accent colors for prompt buttons */
-    --accent: 340 100% 65%;
-    --accent-foreground: 210 40% 98%;
-    --accent-glow: 340 100% 75%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    /* Capture button - vibrant coral */
-    --capture: 10 100% 65%;
-    --capture-foreground: 210 40% 98%;
-    --capture-glow: 10 100% 75%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    /* Success/send - emerald */
-    --success: 150 100% 50%;
-    --success-foreground: 210 40% 98%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 45 85% 62%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --radius: 0.5rem;
 
-    --border: 230 15% 25%;
-    --input: 230 15% 18%;
-    --ring: 250 90% 60%;
-
-    --radius: 1rem;
-
-    /* Custom camera app properties */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
-    --gradient-capture: linear-gradient(135deg, hsl(var(--capture)), hsl(var(--capture-glow)));
-    --gradient-bg: linear-gradient(180deg, hsl(var(--background)), hsl(230 15% 6%));
+    /* Gradient variations inspired by SPG */
+    --gradient-primary: linear-gradient(135deg, hsl(45 85% 62%), hsl(45 85% 72%));
+    --gradient-secondary: linear-gradient(135deg, hsl(186 40% 63%), hsl(186 40% 73%));
+    --gradient-accent: linear-gradient(135deg, hsl(5 62% 64%), hsl(5 62% 74%));
+    --gradient-bg: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 98%));
     
-    --shadow-glow: 0 0 30px hsl(var(--primary) / 0.4);
-    --shadow-capture: 0 0 40px hsl(var(--capture) / 0.5);
-    --shadow-accent: 0 0 25px hsl(var(--accent) / 0.4);
+    /* Shadows with SPG colors */
+    --shadow-glow: 0 0 20px hsl(45 85% 62% / 0.3);
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.2);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .light {
-    /* Light mode for camera app - still photo-focused */
-    --background: 210 40% 98%;
-    --foreground: 230 15% 15%;
+  .dark {
+    --background: 0 0% 13%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 230 15% 15%;
+    --card: 0 0% 13%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 230 15% 15%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 250 90% 60%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 280 100% 70%;
 
-    --secondary: 210 20% 92%;
-    --secondary-foreground: 230 15% 15%;
+    --primary: 45 85% 62%;
+    --primary-foreground: 0 0% 13%;
+    --primary-glow: 45 85% 72%;
 
-    --muted: 210 20% 95%;
-    --muted-foreground: 230 15% 50%;
+    --secondary: 186 40% 63%;
+    --secondary-foreground: 0 0% 13%;
 
-    --accent: 340 100% 65%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 5 62% 64%;
+    --accent-foreground: 0 0% 100%;
 
-    --capture: 10 100% 65%;
-    --capture-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 65%;
 
-    --border: 210 20% 85%;
-    --input: 210 20% 92%;
-    --ring: 250 90% 60%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 45 85% 62%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(45 85% 62%), hsl(45 85% 72%));
+    --gradient-secondary: linear-gradient(135deg, hsl(186 40% 63%), hsl(186 40% 73%));
+    --gradient-accent: linear-gradient(135deg, hsl(5 62% 64%), hsl(5 62% 74%));
+    
+    --shadow-glow: 0 0 20px hsl(45 85% 62% / 0.4);
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -133,27 +121,22 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Lato', sans-serif;
     background: var(--gradient-bg);
     min-height: 100vh;
   }
 
-  /* Custom animations for camera app */
-  @keyframes pulse-glow {
-    0%, 100% { 
-      box-shadow: var(--shadow-glow);
-      transform: scale(1);
+  /* Animations inspired by SPG's playful design */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
     }
-    50% { 
-      box-shadow: var(--shadow-capture);
-      transform: scale(1.02);
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
-  }
-
-  @keyframes capture-flash {
-    0% { opacity: 0; }
-    50% { opacity: 0.8; }
-    100% { opacity: 0; }
   }
 
   @keyframes bounce-in {
@@ -173,74 +156,11 @@ All colors MUST be HSL.
     }
   }
 
-  @keyframes gradient-slow {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes sparkle {
-    0%, 100% {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-
-  .animate-capture-flash {
-    animation: capture-flash 0.3s ease-out;
-  }
-
-  .animate-bounce-in {
-    animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  .animate-gradient-slow {
-    background-size: 200% 200%;
-    animation: gradient-slow 8s ease infinite;
-  }
-
   .animate-fade-in {
     animation: fade-in 0.6s ease-out;
   }
 
-  .animate-reveal {
-    animation: reveal 0.6s ease-out;
-  }
-
-  .animate-sparkle {
-    animation: sparkle 2s ease-in-out;
+  .animate-bounce-in {
+    animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 }
