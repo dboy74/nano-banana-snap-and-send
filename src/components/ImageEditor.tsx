@@ -112,7 +112,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
               Vad vill du bli?
             </h3>
             <p className="text-sm text-muted-foreground">
-              💡 Beskriv i detalj! T.ex: "En basketspelande hund som har en boll i ena handen och en flaska öl i andra"
+              💡 Beskriv i detalj! T.ex: "En galen, 80-85 årig entreprenör med en otroligt glimta i ögonen som har en kebabtallrik i ena handen och jordnötter i den andra handen."
             </p>
             <form onSubmit={handleCustomSubmit} className="flex gap-3">
               <Input
