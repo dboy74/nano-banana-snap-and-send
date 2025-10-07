@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowLeft, Wand2, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -114,19 +114,19 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
             <p className="text-sm text-muted-foreground">
               💡 Beskriv i detalj! T.ex: "En galen, 80-85 årig entreprenör med en otroligt glimta i ögonen som har en kebabtallrik i ena handen och jordnötter i den andra handen."
             </p>
-            <form onSubmit={handleCustomSubmit} className="flex gap-3">
-              <Input
-                type="text"
+            <form onSubmit={handleCustomSubmit} className="flex flex-col gap-3">
+              <Textarea
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
                 placeholder="Skriv en detaljerad beskrivning av vad du vill bli..."
-                className="flex-1 bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50"
+                className="min-h-[120px] bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 resize-none"
               />
               <Button
                 type="submit"
-                className="bg-gradient-primary hover:opacity-90 hover:shadow-glow transition-all px-6"
+                className="bg-gradient-primary hover:opacity-90 hover:shadow-glow transition-all w-full"
               >
-                <Wand2 className="w-4 h-4" />
+                <Wand2 className="w-4 h-4 mr-2" />
+                Transformera
               </Button>
             </form>
           </div>
