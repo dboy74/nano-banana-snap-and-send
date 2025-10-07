@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { CameraPreview } from "./CameraPreview";
 import { ImageEditor } from "./ImageEditor";
 import { EmailSender } from "./EmailSender";
+import spgLogo from "@/assets/spg-logo.png";
 
 type AppStep = "camera" | "editing" | "email";
 
@@ -83,6 +84,13 @@ export const CameraApp = () => {
       <div className="w-full max-w-md mx-auto space-y-6">
         {/* Header */}
         <div className="text-center space-y-2 animate-bounce-in">
+          <div className="flex items-center justify-center mb-3">
+            <img 
+              src={spgLogo} 
+              alt="Science Park Gotland" 
+              className="h-16 w-auto opacity-90"
+            />
+          </div>
           <div className="flex items-center justify-center gap-3 mb-4">
             <Aperture className="w-9 h-9 text-primary animate-pulse-glow drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]" />
             <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent tracking-wider">
