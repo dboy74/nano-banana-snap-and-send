@@ -13,9 +13,6 @@ export default {
       },
     },
     extend: {
-      fontFamily: {
-        sans: ['Lato', 'sans-serif'],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -60,6 +57,16 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Camera app custom colors
+        capture: {
+          DEFAULT: "hsl(var(--capture))",
+          foreground: "hsl(var(--capture-foreground))",
+          glow: "hsl(var(--capture-glow))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -87,19 +94,24 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "capture-flash": "capture-flash 0.3s ease-out",
+        "bounce-in": "bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
-        "gradient-secondary": "var(--gradient-secondary)",
         "gradient-accent": "var(--gradient-accent)",
+        "gradient-capture": "var(--gradient-capture)",
         "gradient-bg": "var(--gradient-bg)",
       },
       boxShadow: {
         "glow": "var(--shadow-glow)",
-        "elegant": "var(--shadow-elegant)",
+        "capture": "var(--shadow-capture)",
+        "accent": "var(--shadow-accent)",
       },
       transitionTimingFunction: {
         "smooth": "var(--transition-smooth)",
+        "bounce": "var(--transition-bounce)",
       },
     },
   },
