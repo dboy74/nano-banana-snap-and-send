@@ -111,12 +111,15 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
               <Wand2 className="w-6 h-6 text-primary" />
               Vad vill du bli?
             </h3>
+            <p className="text-sm text-muted-foreground">
+              💡 Beskriv i detalj! T.ex: "En basketspelande hund som har en boll i ena handen och en flaska öl i andra"
+            </p>
             <form onSubmit={handleCustomSubmit} className="flex gap-3">
               <Input
                 type="text"
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
-                placeholder="Skriv vad du vill bli..."
+                placeholder="Skriv en detaljerad beskrivning av vad du vill bli..."
                 className="flex-1 bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50"
               />
               <Button
