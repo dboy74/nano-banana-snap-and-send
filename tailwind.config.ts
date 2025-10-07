@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,12 +60,6 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Camera app custom colors
-        capture: {
-          DEFAULT: "hsl(var(--capture))",
-          foreground: "hsl(var(--capture-foreground))",
-          glow: "hsl(var(--capture-glow))",
-        },
         success: {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
@@ -101,17 +98,15 @@ export default {
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-accent": "var(--gradient-accent)",
-        "gradient-capture": "var(--gradient-capture)",
+        "gradient-border": "var(--gradient-border)",
         "gradient-bg": "var(--gradient-bg)",
       },
       boxShadow: {
         "glow": "var(--shadow-glow)",
-        "capture": "var(--shadow-capture)",
         "accent": "var(--shadow-accent)",
       },
       transitionTimingFunction: {
         "smooth": "var(--transition-smooth)",
-        "bounce": "var(--transition-bounce)",
       },
     },
   },
