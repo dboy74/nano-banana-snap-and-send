@@ -37,7 +37,7 @@ const handler = async (req: Request): Promise<Response> => {
     );
 
     const emailResponse = await resend.emails.send({
-      from: "AI Island <onboarding@resend.dev>",
+      from: "AI Island <ai-island@notifications.scienceparkgotland.se>",
       to: [email],
       subject: "Din AI-transformation från AI Island 🚀",
       html: `
