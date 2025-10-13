@@ -88,11 +88,11 @@ export const CameraApp = () => {
             <img 
               src={spgLogo} 
               alt="Science Park Gotland" 
-              className="h-16 w-auto opacity-90"
+              className="h-12 w-auto opacity-90"
             />
           </div>
           <div className="text-center mb-4">
-            <h2 className="text-3xl font-montserrat font-bold tracking-wider text-foreground mb-2">
+            <h2 className="text-3xl font-ubuntu font-bold tracking-wider text-foreground mb-2">
               AI.ISLAND
             </h2>
             <div className="flex items-center justify-center gap-3">

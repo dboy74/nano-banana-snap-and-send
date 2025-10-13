@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         montserrat: ['Montserrat', 'sans-serif'],
+        ubuntu: ['Ubuntu', 'Century Gothic', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
