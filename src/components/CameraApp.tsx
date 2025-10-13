@@ -92,7 +92,7 @@ export const CameraApp = () => {
             />
           </div>
           <div className="text-center mb-4">
-            <h2 className="text-3xl font-ubuntu font-bold tracking-wider text-foreground mb-2">
+            <h2 className="text-3xl font-ubuntu font-bold tracking-wider text-foreground mb-6">
               AI.ISLAND
             </h2>
             <div className="flex items-center justify-center gap-3">
