@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Camera, Aperture, Wand2, Send, RotateCcw } from "lucide-react";
+import { Camera, Aperture, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -90,9 +90,21 @@ export const CameraApp = () => {
   }, [currentStep]);
 
   return (
-    <div className="min-h-screen bg-background p-8 flex flex-col">
+    <div className="min-h-screen bg-background p-8 flex flex-col relative overflow-hidden">
+      {/* Floating camera icons in background */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <Camera className="absolute top-[10%] left-[5%] w-12 h-12 text-muted-foreground/20 animate-float-1" />
+        <Aperture className="absolute top-[20%] right-[8%] w-16 h-16 text-muted-foreground/15 animate-float-2" />
+        <Camera className="absolute top-[60%] left-[10%] w-10 h-10 text-muted-foreground/25 animate-float-3" />
+        <Aperture className="absolute top-[70%] right-[15%] w-14 h-14 text-muted-foreground/20 animate-float-1" />
+        <Camera className="absolute bottom-[15%] left-[20%] w-12 h-12 text-muted-foreground/15 animate-float-2" />
+        <Aperture className="absolute bottom-[25%] right-[5%] w-10 h-10 text-muted-foreground/30 animate-float-3" />
+        <Camera className="absolute top-[40%] right-[25%] w-8 h-8 text-muted-foreground/20 animate-float-1" />
+        <Aperture className="absolute top-[50%] left-[30%] w-12 h-12 text-muted-foreground/15 animate-float-2" />
+      </div>
+
       {/* Header with logo and PRESENTS */}
-      <div className="w-full max-w-4xl mx-auto mb-8">
+      <div className="w-full max-w-4xl mx-auto mb-8 relative z-10">
         <div className="flex items-center gap-3">
           <img 
             src={spgLogo} 
@@ -104,7 +116,7 @@ export const CameraApp = () => {
       </div>
 
       {/* Main centered content */}
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center relative z-10">
         <div className="w-full max-w-lg mx-auto space-y-8">
           {/* Title */}
           <div className="text-center space-y-6 animate-fade-in">
