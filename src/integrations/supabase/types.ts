@@ -21,13 +21,12 @@ export type Database = {
           created_at_session: string | null
           email: string | null
           expires_at: string | null
-          generated_image_url: string | null
           id: string
           message: string | null
           name: string | null
-          original_image_url: string | null
           prompt_used: string | null
           session_id: string
+          transformation_type: string | null
         }
         Insert: {
           consent?: boolean
@@ -35,13 +34,12 @@ export type Database = {
           created_at_session?: string | null
           email?: string | null
           expires_at?: string | null
-          generated_image_url?: string | null
           id?: string
           message?: string | null
           name?: string | null
-          original_image_url?: string | null
           prompt_used?: string | null
           session_id?: string
+          transformation_type?: string | null
         }
         Update: {
           consent?: boolean
@@ -49,13 +47,12 @@ export type Database = {
           created_at_session?: string | null
           email?: string | null
           expires_at?: string | null
-          generated_image_url?: string | null
           id?: string
           message?: string | null
           name?: string | null
-          original_image_url?: string | null
           prompt_used?: string | null
           session_id?: string
+          transformation_type?: string | null
         }
         Relationships: []
       }

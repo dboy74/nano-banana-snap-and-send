@@ -19,8 +19,15 @@ const emailRequestSchema = z.object({
   name: z.string().max(100).optional(),
   message: z.string().max(1000).optional(),
   prompt: z.string().max(500).optional(),
-  imageUrl: z.string().url().max(2048),
-  originalImageUrl: z.string().url().max(2048).optional(),
+  // Accept either data URLs (base64) or regular URLs for images
+  imageUrl: z.string().refine(
+    (val) => val.startsWith('data:image/') || val.startsWith('http'),
+    { message: "Invalid image format - must be base64 data URL or http URL" }
+  ),
+  originalImageUrl: z.string().refine(
+    (val) => val.startsWith('data:image/') || val.startsWith('http'),
+    { message: "Invalid image format - must be base64 data URL or http URL" }
+  ).optional(),
 });
 
 // Session-based rate limiting
@@ -80,7 +87,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
     
-    const { sessionId, email, name, imageUrl, message, prompt }: EmailRequest = validationResult.data;
+    const { sessionId, email, name, imageUrl, originalImageUrl, message, prompt }: EmailRequest = validationResult.data;
     console.log(`Processing email for session: ${sessionId}, recipient: ${email.substring(0, 3)}***@${email.split('@')[1]}`);
 
     // Session-based rate limiting
@@ -97,19 +104,16 @@ const handler = async (req: Request): Promise<Response> => {
         }
       );
     }
-    
-    console.log(`Processing email request for: ${email.substring(0, 3)}***@${email.split('@')[1]}`);
 
-    // Fetch the image from the URL and convert to base64
-    const imageResponse = await fetch(imageUrl);
-    const imageBlob = await imageResponse.blob();
-    const imageBuffer = await imageBlob.arrayBuffer();
-    const base64Image = btoa(
-      new Uint8Array(imageBuffer).reduce(
-        (data, byte) => data + String.fromCharCode(byte),
-        ""
-      )
-    );
+    // Convert base64 data URL to base64 string
+    // imageUrl format: "data:image/png;base64,iVBORw0KGgo..."
+    let base64Image = imageUrl;
+    if (imageUrl.startsWith('data:')) {
+      base64Image = imageUrl.split(',')[1]; // Extract base64 part after comma
+    }
+    
+    console.log('Preparing email with base64 image data (not fetching from storage)');
+
 
     const emailResponse = await resend.emails.send({
       from: "AI Island <ai-island@notifications.scienceparkgotland.se>",

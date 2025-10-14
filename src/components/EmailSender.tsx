@@ -29,71 +29,13 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
   const [uploadedGeneratedUrl, setUploadedGeneratedUrl] = useState<string | null>(null);
 
 
-  // Upload images when component mounts - now with signed URLs for private bucket
+  // NO IMAGE UPLOAD - Images only sent via email, not stored in database
+  // This ensures GDPR compliance by not linking photos to personal information
   useEffect(() => {
-    const uploadImages = async () => {
-      setIsUploadingImages(true);
-      try {
-        console.log("Laddar upp bilder till Supabase Storage...");
-        
-        const timestamp = Date.now();
-        const sessionId = getSessionId();
-        const randomId = Math.random().toString(36).substring(7);
-        
-        // Convert base64 to blob for original image
-        const originalBlob = await fetch(originalImage).then(r => r.blob());
-        const originalFileName = `${sessionId}/${timestamp}-original-${randomId}.jpg`;
-        
-        // Convert base64 to blob for generated image
-        const generatedBlob = await fetch(imageUrl).then(r => r.blob());
-        const generatedFileName = `${sessionId}/${timestamp}-generated-${randomId}.jpg`;
-        
-        // Upload original image
-        const { error: originalError } = await supabase.storage
-          .from('transformations')
-          .upload(originalFileName, originalBlob, {
-            contentType: 'image/jpeg',
-            cacheControl: '3600'
-          });
-        
-        if (originalError) throw originalError;
-        
-        // Upload generated image
-        const { error: generatedError } = await supabase.storage
-          .from('transformations')
-          .upload(generatedFileName, generatedBlob, {
-            contentType: 'image/jpeg',
-            cacheControl: '3600'
-          });
-        
-        if (generatedError) throw generatedError;
-        
-        // Get signed URLs (valid for 7 days) since bucket is now private
-        const { data: originalSignedData, error: originalSignedError } = await supabase.storage
-          .from('transformations')
-          .createSignedUrl(originalFileName, 604800); // 7 days in seconds
-        
-        if (originalSignedError) throw originalSignedError;
-        
-        const { data: generatedSignedData, error: generatedSignedError } = await supabase.storage
-          .from('transformations')
-          .createSignedUrl(generatedFileName, 604800); // 7 days in seconds
-        
-        if (generatedSignedError) throw generatedSignedError;
-        
-        setUploadedOriginalUrl(originalSignedData.signedUrl);
-        setUploadedGeneratedUrl(generatedSignedData.signedUrl);
-        
-        console.log("Bilder uppladdade med signed URLs!");
-      } catch (error) {
-        console.error("Bilduppladdningsfel:", error);
-        toast("Kunde inte ladda upp bilder. Försök igen.");
-      } finally {
-        setIsUploadingImages(false);
-      }
-    };
-    
-    uploadImages();
+    // Just mark as ready - we'll send images directly without uploading
+    setIsUploadingImages(false);
+    setUploadedOriginalUrl(originalImage); // Use local base64 for email
+    setUploadedGeneratedUrl(imageUrl); // Use local base64 for email
   }, [originalImage, imageUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -124,37 +66,40 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
     try {
       const sessionId = getSessionId();
       
-      // 1. Spara till databas med session tracking
-      console.log("Sparar transformation till databas...");
+      // 1. Save ONLY analytics metadata to database - NO PHOTOS
+      // This is GDPR compliant: photos not linked to email addresses in database
+      console.log("Sparar analytics (ingen bildlänkning)...");
       
-      const { data, error } = await supabase
+      const { data, error} = await supabase
         .from('transformations')
         .insert({
           session_id: sessionId,
-          email: email.trim() || null, // Email is now optional
+          email: email.trim() || null,
           name: name.trim() || null,
           message: message.trim() || null,
           consent: gdprConsent,
           prompt_used: promptUsed,
-          original_image_url: uploadedOriginalUrl,
-          generated_image_url: uploadedGeneratedUrl
+          transformation_type: promptUsed.substring(0, 50) // Extract type for analytics
+          // NO original_image_url or generated_image_url columns anymore!
         })
         .select();
 
       if (error) throw error;
 
-      console.log("Transformation sparad med session!", data);
+      console.log("Analytics sparad (GDPR-compliant, inga bilder)!", data);
 
-      // 2. Skicka email med bilden (include session_id)
+      // 2. Send email with images directly (not from storage)
+      // Images are sent via email but never stored alongside personal data
       try {
-        console.log("Skickar email...");
+        console.log("Skickar email med bilder...");
         
         const { error: emailError } = await supabase.functions.invoke('send-image-email', {
           body: {
             sessionId: sessionId,
             email: email.trim(),
             name: name.trim() || undefined,
-            imageUrl: uploadedGeneratedUrl,
+            imageUrl: uploadedGeneratedUrl, // Base64 image data
+            originalImageUrl: uploadedOriginalUrl, // Base64 original
             message: message.trim() || undefined,
             prompt: promptUsed
           }
@@ -188,15 +133,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
 
   return (
     <div className="space-y-8 animate-fade-in">
-      {/* Loading overlay while uploading images */}
-      {isUploadingImages && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 rounded-lg">
-          <div className="text-center space-y-3">
-            <Upload className="w-8 h-8 animate-bounce mx-auto text-primary" />
-            <p className="text-sm text-muted-foreground">Laddar upp bilder...</p>
-          </div>
-        </div>
-      )}
+      {/* No more upload overlay - images stay in browser, not uploaded to storage */}
       
       {/* Header */}
       <div className="flex items-center gap-3">
@@ -298,7 +235,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
 
         <Button
           type="submit"
-          disabled={isSending || isSent || !gdprConsent || isUploadingImages}
+          disabled={isSending || isSent || !gdprConsent}
           className={`w-full h-12 text-lg transition-all ${
             isSent 
               ? "bg-success hover:bg-success" 
