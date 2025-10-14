@@ -1,17 +1,54 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "https://esm.sh/resend@4.0.0";
+import { Resend } from "npm:resend@2.0.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
+
+// Input validation schema
+const emailRequestSchema = z.object({
+  email: z.string().email().max(255),
+  name: z.string().max(100).optional(),
+  message: z.string().max(1000).optional(),
+  imageUrl: z.string().url().max(2048),
+  originalImageUrl: z.string().url().max(2048).optional(),
+  promptUsed: z.string().max(500).optional(),
+});
+
+// Rate limiting
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT = 5; // Max 5 emails per hour per IP
+const RATE_WINDOW = 60 * 60 * 1000;
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+  
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_WINDOW });
+    return true;
+  }
+  
+  if (record.count >= RATE_LIMIT) {
+    return false;
+  }
+  
+  record.count++;
+  return true;
+}
 
 interface EmailRequest {
   email: string;
   name?: string;
+  message?: string;
   imageUrl: string;
+  originalImageUrl?: string;
+  promptUsed?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -21,9 +58,46 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, name, imageUrl }: EmailRequest = await req.json();
+    // Rate limiting by IP
+    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+    
+    if (!checkRateLimit(clientIp)) {
+      console.warn(`Email rate limit exceeded for IP: ${clientIp}`);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Too many email requests. Please try again later.',
+          retryAfter: '1 hour'
+        }),
+        { 
+          status: 429, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
 
-    console.log("Skickar email till:", email, "med namn:", name);
+    // Parse and validate input
+    const rawInput = await req.json();
+    const validationResult = emailRequestSchema.safeParse(rawInput);
+    
+    if (!validationResult.success) {
+      console.error('Email validation error:', validationResult.error.issues);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Invalid email request data',
+          details: validationResult.error.issues.map((i: any) => i.message)
+        }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+    
+    const { email, name, imageUrl }: EmailRequest = validationResult.data;
+    
+    console.log(`Processing email request for: ${email.substring(0, 3)}***@${email.split('@')[1]}`);
 
     // Fetch the image from the URL and convert to base64
     const imageResponse = await fetch(imageUrl);
@@ -79,7 +153,7 @@ const handler = async (req: Request): Promise<Response> => {
       ],
     });
 
-    console.log("Email skickat!", emailResponse);
+    console.log("Email sent successfully:", emailResponse.id);
 
     return new Response(JSON.stringify(emailResponse), {
       status: 200,
@@ -89,7 +163,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
     });
   } catch (error: any) {
-    console.error("Fel vid email-skickning:", error);
+    console.error("Email sending error:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
       {
