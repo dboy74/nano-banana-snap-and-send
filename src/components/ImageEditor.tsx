@@ -183,15 +183,15 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
               <Sparkles className="w-5 h-5 text-accent" />
               Eller välj ett förslag
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               {FUNNY_PROMPTS.map((prompt, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   onClick={() => handlePromptClick(prompt.text)}
-                  className="h-auto p-4 text-left bg-gradient-accent hover:opacity-90 hover:scale-[1.02] border-0 text-accent-foreground font-medium transition-all"
+                  className="h-auto p-3 text-left hover:bg-accent hover:text-accent-foreground font-medium transition-all text-sm font-ubuntu"
                 >
-                  <span className="text-sm leading-tight">{prompt.text}</span>
+                  <span className="leading-tight">{prompt.text}</span>
                 </Button>
               ))}
             </div>
