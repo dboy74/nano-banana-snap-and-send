@@ -183,7 +183,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
               <Sparkles className="w-5 h-5 text-accent" />
               Eller välj ett förslag
             </h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3">
               {FUNNY_PROMPTS.map((prompt, index) => (
                 <Button
                   key={index}
