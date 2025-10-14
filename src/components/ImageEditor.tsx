@@ -143,7 +143,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
             <div className="bg-gradient-to-br from-accent/20 to-primary/10 border border-accent/30 rounded-lg p-4 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-xs font-semibold text-primary mb-1">💡 JU MER GALEN, DESTO ROLIGARE!</p>
+                  <p className="text-xs font-semibold text-white mb-1">💡 JU MER GALEN, DESTO ROLIGARE!</p>
                   <p className="text-sm text-foreground/90 italic">
                     "{currentExample}"
                   </p>
