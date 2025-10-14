@@ -111,7 +111,7 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
       </h2>
 
       {/* Camera preview with glassmorphism frame */}
-      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[hsl(240_10%_8%)] to-[hsl(345_25%_15%)] p-1 shadow-glow">
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[hsl(240_15%_12%)] to-[hsl(345_20%_25%)] p-1 shadow-glow">
         <div className="relative rounded-[22px] overflow-hidden bg-black aspect-[4/3] backdrop-blur-xl">
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
