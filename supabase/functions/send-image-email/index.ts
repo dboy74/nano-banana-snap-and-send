@@ -14,29 +14,30 @@ const corsHeaders = {
 
 // Input validation schema
 const emailRequestSchema = z.object({
+  sessionId: z.string().uuid({ message: "Invalid session ID" }),
   email: z.string().email().max(255),
   name: z.string().max(100).optional(),
   message: z.string().max(1000).optional(),
+  prompt: z.string().max(500).optional(),
   imageUrl: z.string().url().max(2048),
   originalImageUrl: z.string().url().max(2048).optional(),
-  promptUsed: z.string().max(500).optional(),
 });
 
-// Rate limiting
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT = 5; // Max 5 emails per hour per IP
+// Session-based rate limiting
+const sessionRateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_PER_SESSION = 5; // Max 5 emails per session per hour
 const RATE_WINDOW = 60 * 60 * 1000;
 
-function checkRateLimit(ip: string): boolean {
+function checkSessionRateLimit(sessionId: string): boolean {
   const now = Date.now();
-  const record = rateLimitMap.get(ip);
+  const record = sessionRateLimitMap.get(sessionId);
   
   if (!record || now > record.resetTime) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_WINDOW });
+    sessionRateLimitMap.set(sessionId, { count: 1, resetTime: now + RATE_WINDOW });
     return true;
   }
   
-  if (record.count >= RATE_LIMIT) {
+  if (record.count >= RATE_LIMIT_PER_SESSION) {
     return false;
   }
   
@@ -45,12 +46,13 @@ function checkRateLimit(ip: string): boolean {
 }
 
 interface EmailRequest {
+  sessionId: string;
   email: string;
   name?: string;
   message?: string;
+  prompt?: string;
   imageUrl: string;
   originalImageUrl?: string;
-  promptUsed?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -60,26 +62,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Rate limiting by IP
-    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || 
-                     req.headers.get('x-real-ip') || 
-                     'unknown';
-    
-    if (!checkRateLimit(clientIp)) {
-      console.warn(`Email rate limit exceeded for IP: ${clientIp}`);
-      return new Response(
-        JSON.stringify({ 
-          error: 'Too many email requests. Please try again later.',
-          retryAfter: '1 hour'
-        }),
-        { 
-          status: 429, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
-    }
-
-    // Parse and validate input
+    // Parse and validate input first to get sessionId
     const rawInput = await req.json();
     const validationResult = emailRequestSchema.safeParse(rawInput);
     
@@ -97,7 +80,23 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
     
-    const { email, name, imageUrl }: EmailRequest = validationResult.data;
+    const { sessionId, email, name, imageUrl, message, prompt }: EmailRequest = validationResult.data;
+    console.log(`Processing email for session: ${sessionId}, recipient: ${email.substring(0, 3)}***@${email.split('@')[1]}`);
+
+    // Session-based rate limiting
+    if (!checkSessionRateLimit(sessionId)) {
+      console.warn(`Email rate limit exceeded for session: ${sessionId}`);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Too many email requests for this session. Please try again later.',
+          retryAfter: '1 hour'
+        }),
+        { 
+          status: 429, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
     
     console.log(`Processing email request for: ${email.substring(0, 3)}***@${email.split('@')[1]}`);
 
@@ -123,6 +122,19 @@ const handler = async (req: Request): Promise<Response> => {
           <p style="font-size: 16px; line-height: 1.6; color: #666;">
             Tack för att du testade AI Island på Företagardagen i Visby!
           </p>
+          
+          ${prompt ? `
+          <div style="margin: 20px 0; padding: 15px; background-color: #f0f4ff; border-left: 4px solid #667eea; border-radius: 5px;">
+            <p style="color: #333; font-weight: bold; margin: 0 0 5px 0; font-size: 14px;">Din transformation:</p>
+            <p style="color: #555; font-style: italic; margin: 0;">"${prompt}"</p>
+          </div>
+          ` : ''}
+          
+          ${message ? `
+          <div style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #764ba2; border-radius: 5px;">
+            <p style="color: #555; font-style: italic; margin: 0;">${message}</p>
+          </div>
+          ` : ''}
           
           <p style="font-size: 16px; line-height: 1.6; color: #666;">
             Här är din coola AI-transformation som bifogad fil.

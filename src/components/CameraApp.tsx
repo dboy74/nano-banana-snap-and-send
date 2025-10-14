@@ -7,6 +7,7 @@ import { CameraPreview } from "./CameraPreview";
 import { ImageEditor } from "./ImageEditor";
 import { EmailSender } from "./EmailSender";
 import spgLogo from "@/assets/spg-logo.png";
+import { getSessionId, refreshSession } from "@/lib/session";
 
 type AppStep = "camera" | "editing" | "email";
 
@@ -60,11 +61,20 @@ export const CameraApp = () => {
   };
 
   useEffect(() => {
+    // Initialize session on component mount
+    const sessionId = getSessionId();
+    console.log('App initialized with session:', sessionId);
+    
     // Set up activity listeners
     const events = ['mousedown', 'touchstart', 'keydown', 'scroll'];
     
+    const handleActivity = () => {
+      resetInactivityTimer();
+      refreshSession(); // Keep session alive on activity
+    };
+    
     events.forEach(event => {
-      window.addEventListener(event, resetInactivityTimer);
+      window.addEventListener(event, handleActivity);
     });
 
     resetInactivityTimer();
@@ -74,7 +84,7 @@ export const CameraApp = () => {
         clearTimeout(inactivityTimerRef.current);
       }
       events.forEach(event => {
-        window.removeEventListener(event, resetInactivityTimer);
+        window.removeEventListener(event, handleActivity);
       });
     };
   }, [currentStep]);

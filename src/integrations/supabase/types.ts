@@ -18,35 +18,44 @@ export type Database = {
         Row: {
           consent: boolean
           created_at: string
-          email: string
+          created_at_session: string | null
+          email: string | null
+          expires_at: string | null
           generated_image_url: string | null
           id: string
           message: string | null
           name: string | null
           original_image_url: string | null
           prompt_used: string | null
+          session_id: string
         }
         Insert: {
           consent?: boolean
           created_at?: string
-          email: string
+          created_at_session?: string | null
+          email?: string | null
+          expires_at?: string | null
           generated_image_url?: string | null
           id?: string
           message?: string | null
           name?: string | null
           original_image_url?: string | null
           prompt_used?: string | null
+          session_id?: string
         }
         Update: {
           consent?: boolean
           created_at?: string
-          email?: string
+          created_at_session?: string | null
+          email?: string | null
+          expires_at?: string | null
           generated_image_url?: string | null
           id?: string
           message?: string | null
           name?: string | null
           original_image_url?: string | null
           prompt_used?: string | null
+          session_id?: string
         }
         Relationships: []
       }
@@ -55,7 +64,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_old_transformations: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      validate_session: {
+        Args: { session_uuid: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

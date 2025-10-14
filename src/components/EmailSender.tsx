@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { getSessionId } from "@/lib/session";
 
 interface EmailSenderProps {
   originalImage: string;
@@ -28,7 +29,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
   const [uploadedGeneratedUrl, setUploadedGeneratedUrl] = useState<string | null>(null);
 
 
-  // Upload images when component mounts
+  // Upload images when component mounts - now with signed URLs for private bucket
   useEffect(() => {
     const uploadImages = async () => {
       setIsUploadingImages(true);
@@ -36,18 +37,19 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
         console.log("Laddar upp bilder till Supabase Storage...");
         
         const timestamp = Date.now();
+        const sessionId = getSessionId();
         const randomId = Math.random().toString(36).substring(7);
         
         // Convert base64 to blob for original image
         const originalBlob = await fetch(originalImage).then(r => r.blob());
-        const originalFileName = `${timestamp}-original-${randomId}.jpg`;
+        const originalFileName = `${sessionId}/${timestamp}-original-${randomId}.jpg`;
         
         // Convert base64 to blob for generated image
         const generatedBlob = await fetch(imageUrl).then(r => r.blob());
-        const generatedFileName = `${timestamp}-generated-${randomId}.jpg`;
+        const generatedFileName = `${sessionId}/${timestamp}-generated-${randomId}.jpg`;
         
         // Upload original image
-        const { data: originalData, error: originalError } = await supabase.storage
+        const { error: originalError } = await supabase.storage
           .from('transformations')
           .upload(originalFileName, originalBlob, {
             contentType: 'image/jpeg',
@@ -57,7 +59,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
         if (originalError) throw originalError;
         
         // Upload generated image
-        const { data: generatedData, error: generatedError } = await supabase.storage
+        const { error: generatedError } = await supabase.storage
           .from('transformations')
           .upload(generatedFileName, generatedBlob, {
             contentType: 'image/jpeg',
@@ -66,19 +68,23 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
         
         if (generatedError) throw generatedError;
         
-        // Get public URLs
-        const { data: { publicUrl: originalPublicUrl } } = supabase.storage
+        // Get signed URLs (valid for 7 days) since bucket is now private
+        const { data: originalSignedData, error: originalSignedError } = await supabase.storage
           .from('transformations')
-          .getPublicUrl(originalFileName);
+          .createSignedUrl(originalFileName, 604800); // 7 days in seconds
         
-        const { data: { publicUrl: generatedPublicUrl } } = supabase.storage
+        if (originalSignedError) throw originalSignedError;
+        
+        const { data: generatedSignedData, error: generatedSignedError } = await supabase.storage
           .from('transformations')
-          .getPublicUrl(generatedFileName);
+          .createSignedUrl(generatedFileName, 604800); // 7 days in seconds
         
-        setUploadedOriginalUrl(originalPublicUrl);
-        setUploadedGeneratedUrl(generatedPublicUrl);
+        if (generatedSignedError) throw generatedSignedError;
         
-        console.log("Bilder uppladdade!", { originalPublicUrl, generatedPublicUrl });
+        setUploadedOriginalUrl(originalSignedData.signedUrl);
+        setUploadedGeneratedUrl(generatedSignedData.signedUrl);
+        
+        console.log("Bilder uppladdade med signed URLs!");
       } catch (error) {
         console.error("Bilduppladdningsfel:", error);
         toast("Kunde inte ladda upp bilder. Försök igen.");
@@ -116,13 +122,16 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
     setIsSending(true);
 
     try {
-      // 1. Spara till databas först
+      const sessionId = getSessionId();
+      
+      // 1. Spara till databas med session tracking
       console.log("Sparar transformation till databas...");
       
       const { data, error } = await supabase
         .from('transformations')
         .insert({
-          email: email.trim(),
+          session_id: sessionId,
+          email: email.trim() || null, // Email is now optional
           name: name.trim() || null,
           message: message.trim() || null,
           consent: gdprConsent,
@@ -134,17 +143,20 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
 
       if (error) throw error;
 
-      console.log("Transformation sparad!", data);
+      console.log("Transformation sparad med session!", data);
 
-      // 2. Skicka email med bilden
+      // 2. Skicka email med bilden (include session_id)
       try {
         console.log("Skickar email...");
         
         const { error: emailError } = await supabase.functions.invoke('send-image-email', {
           body: {
+            sessionId: sessionId,
             email: email.trim(),
             name: name.trim() || undefined,
-            imageUrl: uploadedGeneratedUrl
+            imageUrl: uploadedGeneratedUrl,
+            message: message.trim() || undefined,
+            prompt: promptUsed
           }
         });
 

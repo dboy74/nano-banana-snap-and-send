@@ -8,26 +8,27 @@ const corsHeaders = {
 
 // Input validation schema
 const editImageSchema = z.object({
+  sessionId: z.string().uuid({ message: "Invalid session ID" }),
   imageUrl: z.string().url().max(2048),
   prompt: z.string().min(1).max(500).regex(/^[a-zA-Z0-9\s\u00C0-\u017F.,!?'"🎨🦸🏴‍☠️💼🎭🌟-]+$/, 
     "Prompt contains invalid characters"),
 });
 
-// Simple in-memory rate limiting (resets on function restart)
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT = 10; // Max requests per window
+// Session-based rate limiting (resets on function restart)
+const sessionRateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_PER_SESSION = 10; // Max requests per session per window
 const RATE_WINDOW = 60 * 60 * 1000; // 1 hour in milliseconds
 
-function checkRateLimit(ip: string): boolean {
+function checkSessionRateLimit(sessionId: string): boolean {
   const now = Date.now();
-  const record = rateLimitMap.get(ip);
+  const record = sessionRateLimitMap.get(sessionId);
   
   if (!record || now > record.resetTime) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_WINDOW });
+    sessionRateLimitMap.set(sessionId, { count: 1, resetTime: now + RATE_WINDOW });
     return true;
   }
   
-  if (record.count >= RATE_LIMIT) {
+  if (record.count >= RATE_LIMIT_PER_SESSION) {
     return false;
   }
   
@@ -41,26 +42,7 @@ serve(async (req) => {
   }
 
   try {
-    // Rate limiting by IP
-    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || 
-                     req.headers.get('x-real-ip') || 
-                     'unknown';
-    
-    if (!checkRateLimit(clientIp)) {
-      console.warn(`Rate limit exceeded for IP: ${clientIp}`);
-      return new Response(
-        JSON.stringify({ 
-          error: 'Too many requests. Please try again later.',
-          retryAfter: '1 hour'
-        }),
-        { 
-          status: 429, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
-    }
-
-    // Parse and validate input
+    // Parse and validate input first to get sessionId
     const rawInput = await req.json();
     const validationResult = editImageSchema.safeParse(rawInput);
     
@@ -78,7 +60,23 @@ serve(async (req) => {
       );
     }
     
-    const { imageUrl, prompt } = validationResult.data;
+    const { sessionId, imageUrl, prompt } = validationResult.data;
+    console.log(`Processing edit request for session: ${sessionId}`);
+
+    // Session-based rate limiting
+    if (!checkSessionRateLimit(sessionId)) {
+      console.warn(`Rate limit exceeded for session: ${sessionId}`);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Too many transformation requests for this session. Please try again later.',
+          retryAfter: '1 hour'
+        }),
+        { 
+          status: 429, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
     if (!LOVABLE_API_KEY) {

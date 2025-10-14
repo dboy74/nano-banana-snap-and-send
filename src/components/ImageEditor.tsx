@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { getSessionId } from "@/lib/session";
 
 interface ImageEditorProps {
   originalImage: string;
@@ -62,8 +63,11 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
     setCurrentPrompt(prompt);
     
     try {
+      const sessionId = getSessionId();
+      
       const { data, error } = await supabase.functions.invoke('edit-image', {
         body: {
+          sessionId: sessionId,
           imageUrl: originalImage,
           prompt: prompt
         }
