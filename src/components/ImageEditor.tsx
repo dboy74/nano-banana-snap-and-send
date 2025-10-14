@@ -20,6 +20,14 @@ const CRAZY_PROMPT_EXAMPLES = [
   "DJ-vampyr med lysande headset och vingar gjorda av vinylskivor",
   "Ninja-kock som hoppar mellan gigantiska sushirullar i rymden",
   "Steampunk-detektiv med jetpack gjord av koppar och mässing som flyger över London",
+  "Zombie-ballerina i tutu som dansar balett på månen med neonrosa tutuskor",
+  "Cowboy-alv med laserrevolver och magiska kristaller i hatten, ridande på en jätte-tacobjörn",
+  "Framtidens tidsresande trädgårdsmästare med holografiska blommor och ett rymdskottkärra",
+  "Superhero-bibliotekarie med manteln gjord av flygande böcker och glasögon som skjuter laser",
+  "Dinosaurie-barista som lagar kaffe med vulkanutbrott i en djungelcafé",
+  "Intergalaktisk tandfe med robotvingar och en väska full av guldtänder och stjärnstoft",
+  "Punkrock-munk med tatueringar på skalpen, eldgitarr och kärleksfull aura i ett neonljust tempel",
+  "Tidsmaskinsoperatör-pingvin i frack med klocka i näbben och portaler bakom sig",
 ];
 
 const FUNNY_PROMPTS = [
