@@ -104,10 +104,10 @@ export const CameraApp = () => {
             
             <div className="space-y-2">
               <h2 className="text-2xl font-ubuntu font-normal text-foreground">
-                Foto & Fantasi
+                Ge din fantasi medvind
               </h2>
               <p className="text-sm text-muted-foreground">
-                Ta en bild och låt AI förändra den
+                Från porträtt till pirat på en prompt
               </p>
             </div>
           </div>
