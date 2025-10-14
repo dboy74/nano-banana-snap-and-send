@@ -9,7 +9,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Dark theme with clean minimal style */
-    --background: 240 10% 3.9%;
+    --background: 345 30% 10%;
     --foreground: 0 0% 98%;
 
     --card: 240 10% 7%;
@@ -51,7 +51,7 @@ All colors MUST be HSL.
     --gradient-accent: linear-gradient(135deg, hsl(240 4% 16%), hsl(240 4% 20%));
     --gradient-frame: linear-gradient(180deg, hsl(240 10% 8%), hsl(345 25% 15%));
     --gradient-border: linear-gradient(90deg, hsl(240 4% 16%) 0%, hsl(240 4% 20%) 100%);
-    --gradient-bg: linear-gradient(180deg, hsl(240 10% 3.9%), hsl(240 10% 5%));
+    --gradient-bg: linear-gradient(180deg, hsl(345 30% 10%), hsl(345 25% 25%));
     
     --shadow-glow: 0 10px 25px -5px hsl(0 0% 0% / 0.3);
     --shadow-accent: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
@@ -123,7 +123,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground antialiased;
-    background: var(--gradient-bg);
+    background: linear-gradient(180deg, hsl(345 30% 10%), hsl(345 25% 25%));
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
   }
