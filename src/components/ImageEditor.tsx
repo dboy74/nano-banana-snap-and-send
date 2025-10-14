@@ -165,7 +165,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
                 placeholder="Var kreativ! Kombinera olika världar, lägg till galna detaljer, blanda tidsperioder..."
-                className="min-h-[120px] bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 resize-none"
+                className="min-h-[120px] bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 resize-none font-ubuntu"
               />
               <Button
                 type="submit"

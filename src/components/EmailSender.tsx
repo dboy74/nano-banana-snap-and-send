@@ -232,7 +232,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="din@email.se"
-            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50"
+            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 font-ubuntu"
             required
             disabled={isSending || isSent}
           />
@@ -248,7 +248,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Ditt namn"
-            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50"
+            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 font-ubuntu"
             disabled={isSending || isSent}
           />
         </div>
@@ -262,7 +262,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Kolla vilken cool transformation jag gjorde på AI Island! 🚀"
-            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 min-h-[80px] resize-none"
+            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 min-h-[80px] resize-none font-ubuntu"
             disabled={isSending || isSent}
           />
         </div>
