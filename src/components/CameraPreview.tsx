@@ -157,9 +157,11 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
         <Button
           onClick={captureImage}
           disabled={isLoading}
-          className="w-20 h-20 rounded-full bg-gradient-capture hover:opacity-90 shadow-capture animate-pulse-glow transition-all duration-300 hover:scale-105 group"
+          className="relative w-24 h-24 rounded-full bg-white hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-105 group border-4 border-white/30"
         >
-          <Camera className="w-9 h-9 transition-transform duration-300 group-hover:scale-110" />
+          <div className="absolute inset-2 rounded-full bg-red-600 group-hover:bg-red-500 flex items-center justify-center">
+            <Camera className="w-10 h-10 text-white transition-transform duration-300 group-hover:scale-110" />
+          </div>
         </Button>
 
         <div className="w-14 h-14" /> {/* Spacer for symmetry */}
