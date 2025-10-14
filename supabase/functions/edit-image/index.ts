@@ -34,7 +34,7 @@ serve(async (req) => {
             content: [
               {
                 type: "text",
-                text: `Transform the person in this photo: ${prompt}. Keep the person recognizable but apply the transformation creatively. Make it fun and visually striking!`
+                text: `IMPORTANT: Edit and transform THIS EXACT PHOTO - do not create a new image. Keep the person's facial features, face structure, and identity completely intact. Only apply this transformation to the existing person in the photo: ${prompt}. Preserve their likeness while adding the creative elements.`
               },
               {
                 type: "image_url",
