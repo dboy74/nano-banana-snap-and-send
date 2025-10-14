@@ -34,7 +34,7 @@ serve(async (req) => {
             content: [
               {
                 type: "text",
-                text: `IMPORTANT: Edit and transform THIS EXACT PHOTO - do not create a new image. Keep the person's facial features, face structure, and identity completely intact. Only apply this transformation to the existing person in the photo: ${prompt}. Preserve their likeness while adding the creative elements.`
+                text: `EDIT MODE: Modify this existing photograph. Keep the EXACT same person with their EXACT facial features, face shape, skin tone, and all identifying characteristics completely unchanged. Only add these costume/transformation elements on top of the existing person: ${prompt}. This is a photo editing task - do NOT generate a new person, do NOT change who the person is. Add the transformation while preserving the person's complete identity and appearance.`
               },
               {
                 type: "image_url",
