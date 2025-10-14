@@ -174,6 +174,13 @@ export const CameraApp = () => {
           )}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="w-full max-w-4xl mx-auto mt-8 text-center relative z-10">
+        <p className="text-sm text-muted-foreground">
+          © 2025 Science Park Gotland • Innovation och entreprenörskap för en hållbar framtid
+        </p>
+      </footer>
     </div>
   );
 };
