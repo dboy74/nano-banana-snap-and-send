@@ -12,31 +12,31 @@ interface ImageEditorProps {
 }
 
 const CRAZY_PROMPT_EXAMPLES = [
-  "En galen 80-årig skateboardåkare med rosa mohawk och neongrön kavaj som spelar elbas",
-  "Vikingakrigare med discokula istället för sköld och lasersvärd, omgiven av neonljus",
-  "Astronaut-pirat som rider på en regnbågsfärgad enhörning genom ett moln av glass",
-  "Cyberpunk-farmor med robotarmar som jonglerar med flammande pizzor",
-  "Medeltida riddare i full rustning som surfar på en jättevåg av choklad",
-  "DJ-vampyr med lysande headset och vingar gjorda av vinylskivor",
-  "Ninja-kock som hoppar mellan gigantiska sushirullar i rymden",
-  "Steampunk-detektiv med jetpack gjord av koppar och mässing som flyger över London",
-  "Zombie-ballerina i tutu som dansar balett på månen med neonrosa tutuskor",
-  "Cowboy-alv med laserrevolver och magiska kristaller i hatten, ridande på en jätte-tacobjörn",
-  "Framtidens tidsresande trädgårdsmästare med holografiska blommor och ett rymdskottkärra",
-  "Superhero-bibliotekarie med manteln gjord av flygande böcker och glasögon som skjuter laser",
-  "Dinosaurie-barista som lagar kaffe med vulkanutbrott i en djungelcafé",
-  "Intergalaktisk tandfe med robotvingar och en väska full av guldtänder och stjärnstoft",
-  "Punkrock-munk med tatueringar på skalpen, eldgitarr och kärleksfull aura i ett neonljust tempel",
-  "Tidsmaskinsoperatör-pingvin i frack med klocka i näbben och portaler bakom sig",
+  "Förvandla personen till en galen 80-årig skateboardåkare med rosa mohawk och neongrön kavaj som spelar elbas",
+  "Gör personen till en vikingakrigare med discokula istället för sköld och lasersvärd, omgiven av neonljus",
+  "Förvandla personen till en astronaut-pirat som rider på en regnbågsfärgad enhörning genom ett moln av glass",
+  "Gör personen till en cyberpunk-farmor med robotarmar som jonglerar med flammande pizzor",
+  "Förvandla personen till en medeltida riddare i full rustning som surfar på en jättevåg av choklad",
+  "Gör personen till en DJ-vampyr med lysande headset och vingar gjorda av vinylskivor",
+  "Förvandla personen till en ninja-kock som hoppar mellan gigantiska sushirullar i rymden",
+  "Gör personen till en steampunk-detektiv med jetpack gjord av koppar och mässing som flyger över London",
+  "Förvandla personen till en zombie-ballerina i tutu som dansar balett på månen med neonrosa tutuskor",
+  "Gör personen till en cowboy-alv med laserrevolver och magiska kristaller i hatten, ridande på en jätte-tacobjörn",
+  "Förvandla personen till framtidens tidsresande trädgårdsmästare med holografiska blommor och ett rymdskottkärra",
+  "Gör personen till en superhero-bibliotekarie med manteln gjord av flygande böcker och glasögon som skjuter laser",
+  "Förvandla personen till en dinosaurie-barista som lagar kaffe med vulkanutbrott i en djungelcafé",
+  "Gör personen till en intergalaktisk tandfe med robotvingar och en väska full av guldtänder och stjärnstoft",
+  "Förvandla personen till en punkrock-munk med tatueringar på skalpen, eldgitarr och kärleksfull aura i ett neonljust tempel",
+  "Gör personen till en tidsmaskinsoperatör-pingvin i frack med klocka i näbben och portaler bakom sig",
 ];
 
 const FUNNY_PROMPTS = [
-  { text: "Superhjälte med lasersvärd 🦸", icon: "🦸‍♂️" },
-  { text: "Pirat med papegoja 🏴‍☠️", icon: "🏴‍☠️" },
-  { text: "Cyberpunk-rockstjärna 🎸", icon: "🎸" },
-  { text: "Rymdäventyrare 🚀", icon: "🚀" },
-  { text: "Medeltida trollkarl 🧙", icon: "🧙" },
-  { text: "Dinosaurietämjare 🦖", icon: "🦖" },
+  { text: "Förvandla personen till en superhjälte med lasersvärd 🦸", icon: "🦸‍♂️" },
+  { text: "Förvandla personen till en pirat med papegoja 🏴‍☠️", icon: "🏴‍☠️" },
+  { text: "Gör om personen till en cyberpunk-rockstjärna 🎸", icon: "🎸" },
+  { text: "Förvandla personen till en rymdäventyrare 🚀", icon: "🚀" },
+  { text: "Gör personen till en medeltida trollkarl 🧙", icon: "🧙" },
+  { text: "Förvandla personen till en dinosaurietämjare 🦖", icon: "🦖" },
 ];
 
 export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEditorProps) => {

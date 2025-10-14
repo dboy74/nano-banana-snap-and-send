@@ -34,7 +34,7 @@ serve(async (req) => {
             content: [
               {
                 type: "text",
-                text: `Edit this image: ${prompt}. Make it fun and creative!`
+                text: `Transform the person in this photo: ${prompt}. Keep the person recognizable but apply the transformation creatively. Make it fun and visually striking!`
               },
               {
                 type: "image_url",
