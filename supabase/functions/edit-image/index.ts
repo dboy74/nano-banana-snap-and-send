@@ -9,7 +9,10 @@ const corsHeaders = {
 // Input validation schema
 const editImageSchema = z.object({
   sessionId: z.string().uuid({ message: "Invalid session ID" }),
-  imageUrl: z.string().url().max(2048),
+  imageUrl: z.string().refine(
+    (val) => val.startsWith('data:image/') || val.startsWith('http://') || val.startsWith('https://'),
+    { message: "Image URL must be a valid data URL or HTTP(S) URL" }
+  ),
   prompt: z.string().min(1).max(500).regex(/^[a-zA-Z0-9\s\u00C0-\u017F.,!?'"🎨🦸🏴‍☠️💼🎭🌟-]+$/, 
     "Prompt contains invalid characters"),
 });
