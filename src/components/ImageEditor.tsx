@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Wand2, Loader2, Sparkles } from "lucide-react";
+import { ArrowLeft, Wand2, Loader2, Sparkles, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -11,19 +11,38 @@ interface ImageEditorProps {
   onBack: () => void;
 }
 
+const CRAZY_PROMPT_EXAMPLES = [
+  "En galen 80-årig skateboardåkare med rosa mohawk och neongrön kavaj som spelar elbas",
+  "Vikingakrigare med discokula istället för sköld och lasersvärd, omgiven av neonljus",
+  "Astronaut-pirat som rider på en regnbågsfärgad enhörning genom ett moln av glass",
+  "Cyberpunk-farmor med robotarmar som jonglerar med flammande pizzor",
+  "Medeltida riddare i full rustning som surfar på en jättevåg av choklad",
+  "DJ-vampyr med lysande headset och vingar gjorda av vinylskivor",
+  "Ninja-kock som hoppar mellan gigantiska sushirullar i rymden",
+  "Steampunk-detektiv med jetpack gjord av koppar och mässing som flyger över London",
+];
+
 const FUNNY_PROMPTS = [
-  { text: "Superhjälte 🦸", icon: "🦸‍♂️" },
-  { text: "Tecknad figur 🎨", icon: "🎭" },
-  { text: "Cool med solglasögon 😎", icon: "🕶️" },
-  { text: "Medeltida riddare ⚔️", icon: "⚔️" },
-  { text: "Regnbågshår & glitter 🌈", icon: "🌈" },
-  { text: "Pirat 🏴‍☠️", icon: "🏴‍☠️" },
+  { text: "Superhjälte med lasersvärd 🦸", icon: "🦸‍♂️" },
+  { text: "Pirat med papegoja 🏴‍☠️", icon: "🏴‍☠️" },
+  { text: "Cyberpunk-rockstjärna 🎸", icon: "🎸" },
+  { text: "Rymdäventyrare 🚀", icon: "🚀" },
+  { text: "Medeltida trollkarl 🧙", icon: "🧙" },
+  { text: "Dinosaurietämjare 🦖", icon: "🦖" },
 ];
 
 export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEditorProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [customPrompt, setCustomPrompt] = useState("");
   const [currentPrompt, setCurrentPrompt] = useState("");
+  const [currentExample, setCurrentExample] = useState(
+    CRAZY_PROMPT_EXAMPLES[Math.floor(Math.random() * CRAZY_PROMPT_EXAMPLES.length)]
+  );
+
+  const getRandomExample = () => {
+    const newExample = CRAZY_PROMPT_EXAMPLES[Math.floor(Math.random() * CRAZY_PROMPT_EXAMPLES.length)];
+    setCurrentExample(newExample);
+  };
 
   const processImage = async (prompt: string) => {
     if (!prompt.trim()) {
@@ -111,14 +130,33 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
               <Wand2 className="w-6 h-6 text-primary" />
               Vad vill du bli?
             </h3>
-            <p className="text-sm text-muted-foreground">
-              💡 Beskriv i detalj! T.ex: "En galen, 80-85 årig entreprenör med en otroligt glimta i ögonen som har en kebabtallrik i ena handen och jordnötter i den andra handen."
-            </p>
+            
+            {/* Encouraging example section */}
+            <div className="bg-gradient-to-br from-accent/20 to-primary/10 border border-accent/30 rounded-lg p-4 space-y-2">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1">
+                  <p className="text-xs font-semibold text-accent mb-1">💡 JU MER GALEN, DESTO ROLIGARE!</p>
+                  <p className="text-sm text-foreground/90 italic">
+                    "{currentExample}"
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={getRandomExample}
+                  className="shrink-0 h-8 w-8 hover:bg-accent/20"
+                  type="button"
+                >
+                  <Shuffle className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
             <form onSubmit={handleCustomSubmit} className="flex flex-col gap-3">
               <Textarea
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
-                placeholder="Skriv en detaljerad beskrivning av vad du vill bli..."
+                placeholder="Var kreativ! Kombinera olika världar, lägg till galna detaljer, blanda tidsperioder..."
                 className="min-h-[120px] bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 resize-none"
               />
               <Button
