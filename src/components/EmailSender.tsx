@@ -267,21 +267,26 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
           />
         </div>
 
-        {/* GDPR Consent */}
-        <div className="flex items-start gap-3 p-4 bg-card/30 rounded-lg border border-border/50">
-          <Checkbox
-            id="gdpr"
-            checked={gdprConsent}
-            onCheckedChange={(checked) => setGdprConsent(checked as boolean)}
-            disabled={isSending || isSent}
-            className="mt-0.5"
-          />
-          <Label
-            htmlFor="gdpr"
-            className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
-          >
-            Jag godkänner att Science Park Gotland sparar min e-post för att kontakta mig om AI Island och samarbetsmöjligheter
-          </Label>
+        {/* GDPR Notice and Consent */}
+        <div className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Få din bild till mejlen. Vi använder din arbetsmejl för att skicka din fil och raderar den inom 30 dagar.
+          </p>
+          <div className="flex items-start gap-3 p-4 bg-card/30 rounded-lg border border-border/50">
+            <Checkbox
+              id="gdpr"
+              checked={gdprConsent}
+              onCheckedChange={(checked) => setGdprConsent(checked as boolean)}
+              disabled={isSending || isSent}
+              className="mt-0.5"
+            />
+            <Label
+              htmlFor="gdpr"
+              className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
+            >
+              Jag godkänner att Science Park Gotland sparar min e-post för att kontakta mig om AI Island och samarbetsmöjligheter
+            </Label>
+          </div>
         </div>
 
         <Button
