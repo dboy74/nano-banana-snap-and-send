@@ -30,12 +30,16 @@ const emailRequestSchema = z.object({
   ).optional(),
 });
 
-// Session-based rate limiting
-const sessionRateLimitMap = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT_PER_SESSION = 5; // Max 5 emails per session per hour
-const RATE_WINDOW = 60 * 60 * 1000;
+// Session-based rate limiting - DISABLED FOR EVENT
+// const sessionRateLimitMap = new Map<string, { count: number; resetTime: number }>();
+// const RATE_LIMIT_PER_SESSION = 5; // Max 5 emails per session per hour
+// const RATE_WINDOW = 60 * 60 * 1000;
 
 function checkSessionRateLimit(sessionId: string): boolean {
+  // Rate limiting disabled for event - always return true
+  return true;
+  
+  /* Original rate limiting code - re-enable after event if needed
   const now = Date.now();
   const record = sessionRateLimitMap.get(sessionId);
   
@@ -50,6 +54,7 @@ function checkSessionRateLimit(sessionId: string): boolean {
   
   record.count++;
   return true;
+  */
 }
 
 interface EmailRequest {
