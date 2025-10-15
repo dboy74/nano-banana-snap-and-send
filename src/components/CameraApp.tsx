@@ -135,7 +135,7 @@ export const CameraApp = () => {
             </h1>
             
             <div className="space-y-2">
-              <h2 className="text-2xl font-ubuntu font-normal text-foreground">
+              <h2 className="text-3xl font-ubuntu font-normal text-foreground">
                 Ge din fantasi medvind
               </h2>
               <p className="text-sm text-muted-foreground">
