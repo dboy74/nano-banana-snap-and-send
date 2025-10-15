@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Camera, Aperture, RotateCcw } from "lucide-react";
+import { Camera, Aperture, RotateCcw, Clapperboard, Film, Video, Image as ImageIcon, Focus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -95,12 +95,22 @@ export const CameraApp = () => {
       <div className="fixed inset-0 pointer-events-none z-0">
         <Camera className="absolute top-[10%] left-[5%] w-12 h-12 text-muted-foreground/5 animate-float-1" />
         <Aperture className="absolute top-[20%] right-[8%] w-16 h-16 text-muted-foreground/5 animate-float-2" />
+        <Clapperboard className="absolute top-[15%] left-[25%] w-14 h-14 text-muted-foreground/6 animate-float-3" />
+        <Film className="absolute top-[35%] right-[12%] w-11 h-11 text-muted-foreground/7 animate-float-1" />
+        <Video className="absolute top-[45%] left-[8%] w-13 h-13 text-muted-foreground/5 animate-float-2" />
         <Camera className="absolute top-[60%] left-[10%] w-10 h-10 text-muted-foreground/8 animate-float-3" />
-        <Aperture className="absolute top-[70%] right-[15%] w-14 h-14 text-muted-foreground/5 animate-float-1" />
-        <Camera className="absolute bottom-[15%] left-[20%] w-12 h-12 text-muted-foreground/5 animate-float-2" />
+        <ImageIcon className="absolute top-[55%] right-[20%] w-12 h-12 text-muted-foreground/6 animate-float-1" />
+        <Aperture className="absolute top-[70%] right-[15%] w-14 h-14 text-muted-foreground/5 animate-float-2" />
+        <Focus className="absolute top-[25%] left-[15%] w-9 h-9 text-muted-foreground/7 animate-float-3" />
+        <Camera className="absolute bottom-[15%] left-[20%] w-12 h-12 text-muted-foreground/5 animate-float-1" />
+        <Film className="absolute bottom-[30%] right-[30%] w-10 h-10 text-muted-foreground/6 animate-float-2" />
         <Aperture className="absolute bottom-[25%] right-[5%] w-10 h-10 text-muted-foreground/8 animate-float-3" />
-        <Camera className="absolute top-[40%] right-[25%] w-8 h-8 text-muted-foreground/5 animate-float-1" />
-        <Aperture className="absolute top-[50%] left-[30%] w-12 h-12 text-muted-foreground/5 animate-float-2" />
+        <Clapperboard className="absolute bottom-[10%] left-[35%] w-13 h-13 text-muted-foreground/5 animate-float-1" />
+        <Video className="absolute top-[80%] left-[40%] w-11 h-11 text-muted-foreground/7 animate-float-2" />
+        <Camera className="absolute top-[40%] right-[25%] w-8 h-8 text-muted-foreground/5 animate-float-3" />
+        <Aperture className="absolute top-[50%] left-[30%] w-12 h-12 text-muted-foreground/5 animate-float-1" />
+        <ImageIcon className="absolute bottom-[40%] left-[5%] w-14 h-14 text-muted-foreground/6 animate-float-2" />
+        <Focus className="absolute top-[85%] right-[18%] w-10 h-10 text-muted-foreground/5 animate-float-3" />
       </div>
 
       {/* Header with logo and PRESENTS */}
