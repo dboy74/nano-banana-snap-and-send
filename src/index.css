@@ -9,7 +9,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Dark theme with clean minimal style */
-    --background: 345 30% 10%;
+    --background: 292 47% 21%;
     --foreground: 0 0% 98%;
 
     --card: 240 10% 7%;
@@ -123,7 +123,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground antialiased;
-    background: linear-gradient(180deg, hsl(345 30% 10%), hsl(345 25% 25%));
+    background: linear-gradient(180deg, hsl(292 47% 21%), hsl(292 40% 28%));
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
   }
