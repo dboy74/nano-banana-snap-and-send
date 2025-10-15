@@ -93,14 +93,14 @@ export const CameraApp = () => {
     <div className="min-h-screen bg-background p-8 flex flex-col relative overflow-hidden">
       {/* Floating camera icons in background */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <Camera className="absolute top-[10%] left-[5%] w-12 h-12 text-muted-foreground/20 animate-float-1" />
-        <Aperture className="absolute top-[20%] right-[8%] w-16 h-16 text-muted-foreground/15 animate-float-2" />
-        <Camera className="absolute top-[60%] left-[10%] w-10 h-10 text-muted-foreground/25 animate-float-3" />
-        <Aperture className="absolute top-[70%] right-[15%] w-14 h-14 text-muted-foreground/20 animate-float-1" />
-        <Camera className="absolute bottom-[15%] left-[20%] w-12 h-12 text-muted-foreground/15 animate-float-2" />
-        <Aperture className="absolute bottom-[25%] right-[5%] w-10 h-10 text-muted-foreground/30 animate-float-3" />
-        <Camera className="absolute top-[40%] right-[25%] w-8 h-8 text-muted-foreground/20 animate-float-1" />
-        <Aperture className="absolute top-[50%] left-[30%] w-12 h-12 text-muted-foreground/15 animate-float-2" />
+        <Camera className="absolute top-[10%] left-[5%] w-12 h-12 text-muted-foreground/5 animate-float-1" />
+        <Aperture className="absolute top-[20%] right-[8%] w-16 h-16 text-muted-foreground/5 animate-float-2" />
+        <Camera className="absolute top-[60%] left-[10%] w-10 h-10 text-muted-foreground/8 animate-float-3" />
+        <Aperture className="absolute top-[70%] right-[15%] w-14 h-14 text-muted-foreground/5 animate-float-1" />
+        <Camera className="absolute bottom-[15%] left-[20%] w-12 h-12 text-muted-foreground/5 animate-float-2" />
+        <Aperture className="absolute bottom-[25%] right-[5%] w-10 h-10 text-muted-foreground/8 animate-float-3" />
+        <Camera className="absolute top-[40%] right-[25%] w-8 h-8 text-muted-foreground/5 animate-float-1" />
+        <Aperture className="absolute top-[50%] left-[30%] w-12 h-12 text-muted-foreground/5 animate-float-2" />
       </div>
 
       {/* Header with logo and PRESENTS */}
