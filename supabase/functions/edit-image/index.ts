@@ -13,8 +13,7 @@ const editImageSchema = z.object({
     (val) => val.startsWith('data:image/') || val.startsWith('http://') || val.startsWith('https://'),
     { message: "Image URL must be a valid data URL or HTTP(S) URL" }
   ),
-  prompt: z.string().min(1).max(500).regex(/^[a-zA-Z0-9\s\u00C0-\u017F.,!?'"🎨🦸🏴‍☠️💼🎭🌟-]+$/, 
-    "Prompt contains invalid characters"),
+  prompt: z.string().min(1).max(500),
 });
 
 // Session-based rate limiting (resets on function restart)
