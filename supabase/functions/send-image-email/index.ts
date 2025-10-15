@@ -162,9 +162,12 @@ const handler = async (req: Request): Promise<Response> => {
             Science Park Gotland
           </p>
           
-          <div style="margin-top: 20px;">
-            <img src="https://scienceparkgotland.se/wp-content/uploads/2023/01/SPG-logo.png" alt="Science Park Gotland" style="height: 40px; width: auto;" />
-          </div>
+          <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 30px 0;">
+          
+          <p style="font-size: 12px; color: #999; text-align: center;">
+            <strong>Science Park Gotland</strong><br>
+            Innovation och entreprenörskap för en hållbar framtid
+          </p>
         </div>
       `,
       attachments: [
