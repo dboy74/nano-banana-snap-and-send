@@ -158,9 +158,13 @@ const handler = async (req: Request): Promise<Response> => {
           
           <p style="font-size: 16px; line-height: 1.6; color: #666; margin-top: 30px;">
             Hälsningar,<br>
-            <strong>AI Island-teamet</strong><br>
+            <strong>AI.Island-teamet</strong><br>
             Science Park Gotland
           </p>
+          
+          <div style="margin-top: 20px;">
+            <img src="https://scienceparkgotland.se/wp-content/uploads/2023/01/SPG-logo.png" alt="Science Park Gotland" style="height: 40px; width: auto;" />
+          </div>
         </div>
       `,
       attachments: [
