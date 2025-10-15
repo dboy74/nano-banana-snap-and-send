@@ -20,6 +20,9 @@ interface EmailSenderProps {
 export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, onBack }: EmailSenderProps) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [companyWebsite, setCompanyWebsite] = useState("");
   const [message, setMessage] = useState("Kolla vilken cool transformation jag gjorde på AI Island! 🚀");
   const [gdprConsent, setGdprConsent] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -76,6 +79,9 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
           session_id: sessionId,
           email: email.trim() || null,
           name: name.trim() || null,
+          company: company.trim() || null,
+          industry: industry.trim() || null,
+          company_website: companyWebsite.trim() || null,
           message: message.trim() || null,
           consent: gdprConsent,
           prompt_used: promptUsed,
@@ -197,6 +203,51 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Ditt namn"
+            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 font-ubuntu"
+            disabled={isSending || isSent}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="company" className="text-foreground font-medium">
+            Ditt företag (valfritt)
+          </Label>
+          <Input
+            id="company"
+            type="text"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            placeholder="Företagets namn"
+            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 font-ubuntu"
+            disabled={isSending || isSent}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="industry" className="text-foreground font-medium">
+            Bransch (valfritt)
+          </Label>
+          <Input
+            id="industry"
+            type="text"
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
+            placeholder="T.ex. Tech, Hälsa, Finans"
+            className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 font-ubuntu"
+            disabled={isSending || isSent}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="companyWebsite" className="text-foreground font-medium">
+            Företags Webbplats (valfritt)
+          </Label>
+          <Input
+            id="companyWebsite"
+            type="url"
+            value={companyWebsite}
+            onChange={(e) => setCompanyWebsite(e.target.value)}
+            placeholder="https://www.example.com"
             className="bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 font-ubuntu"
             disabled={isSending || isSent}
           />

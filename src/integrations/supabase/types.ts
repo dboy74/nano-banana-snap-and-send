@@ -16,12 +16,15 @@ export type Database = {
     Tables: {
       transformations: {
         Row: {
+          company: string | null
+          company_website: string | null
           consent: boolean
           created_at: string
           created_at_session: string | null
           email: string | null
           expires_at: string | null
           id: string
+          industry: string | null
           message: string | null
           name: string | null
           prompt_used: string | null
@@ -29,12 +32,15 @@ export type Database = {
           transformation_type: string | null
         }
         Insert: {
+          company?: string | null
+          company_website?: string | null
           consent?: boolean
           created_at?: string
           created_at_session?: string | null
           email?: string | null
           expires_at?: string | null
           id?: string
+          industry?: string | null
           message?: string | null
           name?: string | null
           prompt_used?: string | null
@@ -42,12 +48,15 @@ export type Database = {
           transformation_type?: string | null
         }
         Update: {
+          company?: string | null
+          company_website?: string | null
           consent?: boolean
           created_at?: string
           created_at_session?: string | null
           email?: string | null
           expires_at?: string | null
           id?: string
+          industry?: string | null
           message?: string | null
           name?: string | null
           prompt_used?: string | null
