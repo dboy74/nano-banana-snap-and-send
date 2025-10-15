@@ -284,7 +284,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
               htmlFor="gdpr"
               className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
             >
-              Jag godkänner att Science Park Gotland sparar min e-post för att kontakta mig om AI Island och samarbetsmöjligheter
+              Vill du även få AI-nyheter & inbjudningar till våra AI-community-evenemang? Kryssa i rutan på skärmen. Du kan när som helst avregistrera dig.
             </Label>
           </div>
         </div>
