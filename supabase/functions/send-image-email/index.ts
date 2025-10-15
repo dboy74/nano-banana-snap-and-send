@@ -129,7 +129,7 @@ const handler = async (req: Request): Promise<Response> => {
           <h1 style="color: #333;">Hej ${name || "där"}!</h1>
           
           <p style="font-size: 16px; line-height: 1.6; color: #666;">
-            Tack för att du testade AI Island på Företagardagen i Visby!
+            Tack för att du testade AI.Island på Företagardagen i Visby!
           </p>
           
           ${prompt ? `
