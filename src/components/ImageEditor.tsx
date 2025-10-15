@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Wand2, Loader2, Sparkles, Shuffle } from "lucide-react";
+import { ArrowLeft, Wand2, Loader2, Sparkles, Shuffle, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -98,6 +98,11 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
     processImage(customPrompt);
   };
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast("Kopierad! 📋");
+  };
+
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Header */}
@@ -152,15 +157,26 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
                     "{currentExample}"
                   </p>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={getRandomExample}
-                  className="shrink-0 h-8 w-8 hover:bg-accent/20"
-                  type="button"
-                >
-                  <Shuffle className="w-4 h-4" />
-                </Button>
+                <div className="flex gap-1 shrink-0">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => copyToClipboard(currentExample)}
+                    className="h-8 w-8 hover:bg-accent/20"
+                    type="button"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={getRandomExample}
+                    className="h-8 w-8 hover:bg-accent/20"
+                    type="button"
+                  >
+                    <Shuffle className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </div>
 
