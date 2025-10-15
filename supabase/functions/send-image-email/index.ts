@@ -147,8 +147,8 @@ const handler = async (req: Request): Promise<Response> => {
           <div style="margin: 30px 0; padding: 20px; background-color: #f5f5f5; border-radius: 10px;">
             <h3 style="color: #333; margin-top: 0;">Vill du veta mer om hur AI kan hjälpa ditt företag?</h3>
             <p style="font-size: 16px; line-height: 1.6; color: #666;">
-              Kontakta oss på Science Park Gotland:<br>
-              <a href="mailto:info@scienceparkgotland.se" style="color: #0066cc;">info@scienceparkgotland.se</a>
+              Kontakta Ingmar, vår AI Lead på Science Park Gotland:<br>
+              <a href="mailto:ingmar.bertram@scienceparkgotland.se" style="color: #0066cc;">ingmar.bertram@scienceparkgotland.se</a>
             </p>
           </div>
           
