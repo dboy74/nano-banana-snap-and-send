@@ -279,7 +279,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
               htmlFor="gdpr"
               className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
             >
-              Behöver ditt företag hjälp med att ta tillvara på AI? Registrera dig för att få tillgång till workshops, rådgivning och support.
+              Kryssa i för att registrera dig för vårt AI-community och nyhetsbrev för att få tillgång till workshops, rådgivning och support.
             </Label>
           </div>
         </div>
