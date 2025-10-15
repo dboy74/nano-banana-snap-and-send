@@ -49,13 +49,8 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
       return;
     }
 
-    if (!email.includes("@")) {
+    if (!email.includes("@") || !email.includes(".")) {
       toast("Vänligen ange en giltig e-postadress!");
-      return;
-    }
-
-    if (!gdprConsent) {
-      toast("Du måste godkänna att vi sparar din e-post!");
       return;
     }
 
@@ -291,7 +286,7 @@ export const EmailSender = ({ originalImage, imageUrl, promptUsed, onEmailSent, 
 
         <Button
           type="submit"
-          disabled={isSending || isSent || !gdprConsent}
+          disabled={isSending || isSent || !email.trim()}
           className={`w-full h-12 text-lg transition-all ${
             isSent 
               ? "bg-success hover:bg-success" 
