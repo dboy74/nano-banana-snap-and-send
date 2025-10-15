@@ -184,7 +184,7 @@ export const ImageEditor = ({ originalImage, onImageEdited, onBack }: ImageEdito
               <Textarea
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
-                placeholder="Var kreativ! Kombinera olika världar, lägg till galna detaljer, blanda tidsperioder..."
+                placeholder="Skriv din egen idé, använd våra galna exempel ovan, eller välj ett förslag nedan..."
                 className="min-h-[120px] bg-input/50 border-border/50 transition-all focus:shadow-glow focus:border-primary/50 resize-none font-ubuntu"
               />
               <Button
