@@ -14,6 +14,8 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [facingMode, setFacingMode] = useState<"user" | "environment">("user");
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const startCamera = async (facing: "user" | "environment" = "user") => {
     try {
@@ -70,6 +72,23 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
     onImageCaptured(imageDataUrl);
   };
 
+  const startCountdown = () => {
+    setCountdown(3);
+    
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === null || prev <= 1) {
+          clearInterval(timer);
+          captureImage();
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
+    countdownTimerRef.current = timer;
+  };
+
   const switchCamera = () => {
     const newFacing = facingMode === "user" ? "environment" : "user";
     startCamera(newFacing);
@@ -82,6 +101,9 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
     return () => {
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
+      }
+      if (countdownTimerRef.current) {
+        clearInterval(countdownTimerRef.current);
       }
     };
   }, []);
@@ -130,6 +152,15 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
             autoPlay
           />
           
+          {/* Countdown overlay */}
+          {countdown !== null && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-20">
+              <div className="text-white text-9xl font-bold animate-scale-in">
+                {countdown}
+              </div>
+            </div>
+          )}
+          
           {/* Gradient overlay for depth */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 pointer-events-none" />
           
@@ -155,8 +186,8 @@ export const CameraPreview = ({ onImageCaptured }: CameraPreviewProps) => {
         </Button>
 
         <Button
-          onClick={captureImage}
-          disabled={isLoading}
+          onClick={startCountdown}
+          disabled={isLoading || countdown !== null}
           className="relative w-24 h-24 rounded-full bg-white hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-105 group border-4 border-white/30"
         >
           <div className="absolute inset-2 rounded-full bg-red-600 group-hover:bg-red-500 flex items-center justify-center">
